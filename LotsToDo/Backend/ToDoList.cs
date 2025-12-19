@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LotsToDo.Backend;
+
+public class ToDoList
+{
+    public ToDoList()
+    {
+        ToDoFolderList = [];
+    }
+    public List<ToDoFolder> ToDoFolderList { get; set; }
+    public void Export()
+    {
+        // StringBuilder text = new();
+        // for (int i = 0; i < ToDoFolderList.Count; i++)
+        // {
+        //     text.AppendLine(GetFolderText(ToDoFolderList[i]));
+        // }
+        // File.WriteAllText("todo.txt", text.ToString());
+    }
+}
