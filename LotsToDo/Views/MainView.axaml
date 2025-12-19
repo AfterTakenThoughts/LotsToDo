@@ -5,14 +5,78 @@
         xmlns:vm="using:LotsToDo.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LotsToDo.Views.MainView"
-        x:DataType="vm:MainViewModel">
+        x:DataType="vm:MainViewModel"
+        Background="rgba(10, 10, 20, 1)">
     <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
     </Design.DataContext>
+    <StackPanel>
+        <TextBlock Margin="20" FontSize="20" Foreground="White"
+            FontWeight="SemiBold" HorizontalAlignment="Left" VerticalAlignment="Top">
+            Recommended
+        </TextBlock>
+        <TextBlock
+            Margin="10" FontSize="20" Foreground="White"
+            FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
+            Today
+        </TextBlock>
+        <Border Margin="10" CornerRadius="10" BorderThickness="2" BorderBrush="Gray" Height="75" Width="400">
+            <StackPanel>
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Margin="10 10" Foreground="White">
+                    Something due for some thing
+                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Border Margin="10 0" CornerRadius="10" BorderThickness="2" BorderBrush="rgba(255, 0, 0)" Height="24">
+                        <TextBlock Margin="10 0" Foreground="White">
+                            Due Tomorrow
+                        </TextBlock>
+                    </Border>
+                    <Border Margin="10 0" CornerRadius="10" BorderThickness="2" BorderBrush="Yellow" Height="24">
+                        <TextBlock Margin="10 0" Foreground="White">
+                            Projects
+                        </TextBlock>
+                    </Border>
+                    <Border Margin="10 0" CornerRadius="10" BorderThickness="2" BorderBrush="Lime" Height="24">
+                        <TextBlock Margin="10 0" Foreground="White">
+                            lisp2
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <Border Margin="10" CornerRadius="10" BorderThickness="2" BorderBrush="Gray" Height="75" Width="400">
+            <StackPanel>
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    Margin="10 10" Foreground="White">
+                    Something due for some thing
+                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Border Margin="10 0" CornerRadius="10" BorderThickness="2" BorderBrush="rgba(255, 0, 0)" Height="24">
+                        <TextBlock Margin="10 0" Foreground="White">
+                            Due Tomorrow
+                        </TextBlock>
+                    </Border>
+                    <Border Margin="10 0" CornerRadius="10" BorderThickness="2" BorderBrush="Yellow" Height="24">
+                        <TextBlock Margin="10 0" Foreground="White">
+                            Projects
+                        </TextBlock>
+                    </Border>
+                    <Border Margin="10 0" CornerRadius="10" BorderThickness="2" BorderBrush="Lime" Height="24">
+                        <TextBlock Margin="10 0" Foreground="White">
+                            lisp2
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <TextBlock
+            Margin="10" FontSize="20" Foreground="White"
+            FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
+            Other Tasks...
+        </TextBlock>
+    </StackPanel>
 
-    <TextBlock 
-        Margin="10" 
-        Text="Recommended" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 </UserControl>
