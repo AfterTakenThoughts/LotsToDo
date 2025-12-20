@@ -3,6 +3,7 @@ using System;
 namespace LotsToDo.Backend;
 public interface IToDoItem
 {
+    public bool IsCompleted { get; set; }
     public string Content { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime DueDate { get; set; }
@@ -11,6 +12,9 @@ public interface IToDoItem
 }
 public class ToDoItem : IToDoItem
 {
+    public ToDoItem(){
+        
+    }
     public ToDoItem(string content, DateTime? startTime = null, DateTime? dueDate = null)
     {
         Content = content;
@@ -18,6 +22,7 @@ public class ToDoItem : IToDoItem
         DueDate = dueDate.GetValueOrDefault(DefaultDueDate);
         CreateTime = DateTime.UtcNow;
     }
+    public bool IsCompleted { get; set; }
     public string Content { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime DueDate { get; set; }
