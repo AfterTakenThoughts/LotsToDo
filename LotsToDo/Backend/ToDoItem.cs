@@ -38,14 +38,7 @@ public class ToDoItem
         StartTime = startTime;
         DueDate = dueDate;
         CreateTime = DateTime.UtcNow;
-        if (tags == null)
-        {
-            Tags = [];
-        }
-        else
-        {
-            Tags = new(tags);
-        }
+        Tags = tags ?? [];
     }
 
     public override string ToString()
@@ -56,9 +49,9 @@ public class ToDoItem
         item = TimeToString(item);
         if (Tags != null && Tags.Count != 0)
         {
-            item = TagsToString(item, "    ");
+            item = TagsToString(item, indent);
         }
-        return item.ToString().ReplaceLineEndings();
+        return item.ToString();
     }
     StringBuilder TimeToString(StringBuilder item)
     {
@@ -66,11 +59,22 @@ public class ToDoItem
         {
             item.Append($"Start: {StartTime:MM/dd/yyyy HH:mm}");
         }
+
         if (DueDate != null)
         {
+            if (StartTime != null)
+            {
+                item.Append(", ");
+            }
             item.Append($"Due: {DueDate:MM/dd/yyyy HH:mm}");
         }
+
+        if (StartTime != null || DueDate != null)
+        {
+            item.Append(", ");
+        }
         item.Append($"Created: {CreateTime:MM/dd/yyyy HH:mm}");
+
         return item;
     }
     StringBuilder TagsToString(StringBuilder item, string indent)
