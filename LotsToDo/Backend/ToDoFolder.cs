@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace LotsToDo.Backend;
-public class ToDoFolder(string folderName, List<IToDoItem> item, params List<ToDoFolder> folder)
+public class ToDoFolder(string folderName, List<ToDoItem> item, params List<ToDoFolder> folder)
 {
     public string FolderName { get; set; } = folderName;
-    public List<IToDoItem> Item { get; set; } = item;
+    public List<ToDoItem> Item { get; set; } = item;
     public List<ToDoFolder> Folder { get; set; } = folder;
     public string ToString(int depth = 0)
     {

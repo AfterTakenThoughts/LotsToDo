@@ -16,17 +16,17 @@ public partial class ToDoItemViewModel : ViewModelBase
     private string _Content;
 
     [ObservableProperty]
-    private DateTime _StartTime;
+    private DateTime? _StartTime;
 
     [ObservableProperty]
-    private DateTime _DueDate;
+    private DateTime? _DueDate;
 
     [ObservableProperty]
     private DateTime _CreateTime;
 
     public ToDoItemViewModel()
     {
-
+        Content = "";
     }
 
     public ToDoItemViewModel(ToDoItem item)
