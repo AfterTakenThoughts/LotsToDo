@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using LotsToDo.Backend;
 using LotsToDo.ViewModels;
 
-
+namespace LotsToDo.ViewModels;
 /// <summary>
 /// This is a ViewModel which represents a <see cref="Models.ToDoItem"/>
 /// </summary>

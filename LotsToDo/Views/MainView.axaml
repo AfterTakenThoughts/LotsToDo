@@ -14,24 +14,5 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <StackPanel>
-        <TextBlock Margin="20" FontSize="20" Foreground="White"
-            FontWeight="SemiBold" HorizontalAlignment="Left" VerticalAlignment="Top">
-            Recommended
-        </TextBlock>
-        <TextBlock
-            Margin="10" FontSize="20" Foreground="White"
-            FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
-            Today
-        </TextBlock>
-        <StackPanel>
-            <controls:TaskElement/>
-        </StackPanel>
-        <TextBlock
-            Margin="10" FontSize="20" Foreground="White"
-            FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
-            Other Tasks...
-        </TextBlock>
-        <Button HorizontalAlignment="Center" Background="White" Click="Button_Click">Show More</Button>
-    </StackPanel>
+    <controls:RecommendedTasks/>
 </UserControl>
