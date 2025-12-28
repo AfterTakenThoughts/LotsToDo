@@ -3,7 +3,7 @@ using System.IO;
 using LotsToDo.Backend;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
-namespace LotsToDo.Tests;
+namespace LotsToDo.Tests.FileIO.Archive;
 
 public class ArchiveExportTest
 {
