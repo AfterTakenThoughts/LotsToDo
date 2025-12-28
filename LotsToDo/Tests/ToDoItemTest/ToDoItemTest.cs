@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using LotsToDo.Backend;
-using NUnit.Framework.Constraints;
 
-namespace LotsToDo.Tests;
+namespace LotsToDo.Tests.ToDoItemTest;
 
 class ToDoItemTest
 {

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using LotsToDo.Backend;
 
-namespace LotsToDo.Tests.FileIO.ToDoTxt;
+namespace LotsToDo.Tests.FileIOTest.ToDoTxt;
 
 public class ToDoTxtExportTest
 {

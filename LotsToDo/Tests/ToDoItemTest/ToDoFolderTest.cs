@@ -1,21 +1,14 @@
-using System;
-using System.IO;
+﻿using System;
 using LotsToDo.Backend;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
-namespace LotsToDo.Tests.FileIO.Archive;
+namespace LotsToDo.Tests.ToDoItemTest;
 
-public class ArchiveExportTest
+class ToDoFolderTest
 {
     public required ToDoFolder Folder { get; set; }
-    public required string TestPath { get; set; }
-    public required string FileName { get; set; }
     [SetUp]
     public void Setup()
     {
-        TestPath = "Tests/TextExport1";
-        FileName = "todo";
-
         Folder = new ToDoFolder("Test",
             [
                 new ToDoItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1)),
@@ -36,21 +29,27 @@ public class ArchiveExportTest
         );
     }
     [Test]
-    public void FileNameTest()
+    public void InitFolderTest()
     {
-        FileArchive fileExport = new();
-        fileExport.Export(Folder, TestPath, FileName);
-
-        string file = Path.GetFileName(Directory.GetFiles(TestPath)[0]);
-        Assert.That(file, Is.EqualTo(FileName + ".txt"));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(Folder.FolderName, Is.EqualTo("Test"));
+            Assert.That(Folder.Item, Has.Count.EqualTo(2));
+            Assert.That(Folder.Folder, Has.Count.EqualTo(2));
+        }
     }
     [Test]
-    public void FileContentTest()
+    public void EmptyFolderToStringTest()
     {
-        FileArchive fileExport = new();
-        fileExport.Export(Folder, TestPath, FileName);
-        string content = File.ReadAllText(Directory.GetFiles(TestPath)[0]);
-
+        ToDoFolder folder = new("Test");
+        string testItem = $"""
+            Folder: Test
+            """;
+        Assert.That(folder.ToString(), Is.EqualTo(testItem.ReplaceLineEndings()));
+    }
+    [Test]
+    public void FolderToStringTest()
+    {
         string testItem = $"""
             Folder: Test
                 Test1
@@ -65,11 +64,7 @@ public class ArchiveExportTest
                     Test2
                         Created: {Folder.Folder[0].Item[0].CreateTime:MM/dd/yyyy HH:mm}
             """;
-        Assert.That(content, Is.EqualTo(testItem));
-    }
-    [TearDown]
-    public void TearDown()
-    {
-        Directory.Delete($"{TestPath}\\..", true);
+        TestContext.Out.WriteLine(Folder.ToString());
+        Assert.That(Folder.ToString(), Is.EqualTo(testItem.ReplaceLineEndings()));
     }
 }
