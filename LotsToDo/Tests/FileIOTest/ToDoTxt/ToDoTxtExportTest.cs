@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using LotsToDo.Backend;
+using LotsToDo.Backend.FileIO;
 
 namespace LotsToDo.Tests.FileIOTest.ToDoTxt;
 
@@ -24,7 +25,7 @@ public class ToDoTxtExportTest
     public void FileNameTest()
     {
         FileToDoTxt fileExport1 = new();
-        fileExport1.Export(Folder, TestPath, FileName);
+        fileExport1.Export(TestPath, FileName, Folder);
 
         string file = Path.GetFileName(Directory.GetFiles(TestPath)[0]);
         Assert.That(file, Is.EqualTo(FileName + ".txt"));

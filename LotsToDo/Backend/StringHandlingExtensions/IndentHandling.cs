@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 
 namespace LotsToDo.Backend.StringHandlingExtensions;
@@ -32,5 +33,10 @@ public class IndentHandling
     public static string IndentString(string content, string indentLiteral, int indentLength)
     {
         return IndentString(new StringBuilder(content), indentLiteral, indentLength).ToString();
+    }
+
+    public static int GetIndentCount(string line)
+    {
+        return line.TakeWhile(Char.IsWhiteSpace).Count();
     }
 }
