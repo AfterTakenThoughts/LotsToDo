@@ -49,27 +49,27 @@ public class FileArchive : IToDoFileIO
     public static List<ToDoFolder> FolderFromString(string content)
     {
         List<ToDoFolder> folders = [];
+        ToDoFolder otherContent = new("Other Items");
 
         using StringReader reader = new(content);
-        Stack<int> indentLevel = [];
-        List<int> FolderLevelIndex = [];
+        List<(int index, int indent)> FolderLevel = [];
 
+        ToDoItem selectedItem = new();
+        //Needed as when finding the folder indent, next line contains indent info instead of current line.
+        bool isCatchingIndent = false;
         for (string? line = reader.ReadLine(); line != null; line = reader.ReadLine())
         {
             int indentCount = IndentHandling.GetIndentCount(line);
             string noIndentContents = line.TrimStart();
             string[] splitLines = noIndentContents.Split(':');
-            if (splitLines.Length == 1)
-            {
-
-            }
-            else
-            {
-                if (splitLines[0].Trim().Equals("Folder"))
-                {
-                    //FolderLevelIndex.Push(new ToDoFolder(splitLines[1].Trim()));
-                }
-            }
+            // if (splitLines[0].Trim().Equals("Folder"))
+            // {
+            //     Folder
+            // }
+            // else if (splitLines.Length == 1)
+            // {
+            //     selected
+            // }
         }
         return folders;
     }
@@ -79,14 +79,32 @@ public class FileArchive : IToDoFileIO
         string indentLiteral = "    ";
         StringBuilder text = new();
 
-        text.Append(GetFolderString(FolderItem, indentLiteral, indentLength));
-        if (FolderItem.Item != null && FolderItem.Item.Count != 0)
+        Stack<(ToDoFolder, int depth)> folderStack = new();
+        folderStack.Push((FolderItem, 0));
+
+        while (folderStack.Count > 0)
         {
-            text.Append($"{Environment.NewLine}{GetFolderContentString(FolderItem, indentLiteral, indentLength)}");
-        }
-        if (FolderItem.Folder != null && FolderItem.Folder.Count != 0)
-        {
-            text.Append($"{Environment.NewLine}{GetSubFolderString(FolderItem, indentLength)}");
+            (ToDoFolder currentFolder, int depth) = folderStack.Pop();
+
+            text.Append(GetFolderString(currentFolder, indentLiteral, indentLength + depth));
+            if (currentFolder.Item != null && currentFolder.Item.Count != 0)
+            {
+                text.AppendLine();
+                text.Append($"{Environment.NewLine}{GetContentString(currentFolder, indentLiteral, indentLength + depth)}");
+            }
+            if (currentFolder.Folder != null && currentFolder.Folder.Count != 0)
+            {
+                for (int i = currentFolder.Folder.Count - 1; i >= 0; i--)
+                {
+                    folderStack.Push((currentFolder.Folder[i], depth + 1));
+                }
+            }
+
+            //Check after pop, not before pop to prevent adding a new line at the end of string.
+            if(folderStack.Count > 0)
+            {
+                text.AppendLine();
+            }
         }
         return text.ToString();
 
@@ -95,14 +113,10 @@ public class FileArchive : IToDoFileIO
         {
             return $"{IndentHandling.GetIndent(indentLiteral, indentLength)}Folder: {FolderItem.FolderName}";
         }
-        static string GetFolderContentString(ToDoFolder FolderItem, string indentLiteral, int indentLength)
+        static string GetContentString(ToDoFolder FolderItem, string indentLiteral, int indentLength)
         {
             string itemIndent = IndentHandling.GetIndent(indentLiteral, indentLength + 1);
             return String.Join(Environment.NewLine, FolderItem.Item.Select(x => IndentHandling.IndentString(x.ToString(), itemIndent)));
-        }
-        static string GetSubFolderString(ToDoFolder FolderItem, int indentLength)
-        {
-            return String.Join(Environment.NewLine, FolderItem.Folder.Select(x => GetString(x, indentLength + 1)));
         }
     }
 }
