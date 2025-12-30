@@ -82,15 +82,14 @@ public class FileArchive : IToDoFileIO
         text.Append(GetFolderString(FolderItem, indentLiteral, indentLength));
         if (FolderItem.Item != null && FolderItem.Item.Count != 0)
         {
-            text.Append(Environment.NewLine);
-            text.Append(GetFolderContentString(FolderItem, indentLiteral, indentLength));
+            text.Append($"{Environment.NewLine}{GetFolderContentString(FolderItem, indentLiteral, indentLength)}");
         }
         if (FolderItem.Folder != null && FolderItem.Folder.Count != 0)
         {
-            text.Append(Environment.NewLine);
-            text.Append(GetSubFolderString(FolderItem, indentLength));
+            text.Append($"{Environment.NewLine}{GetSubFolderString(FolderItem, indentLength)}");
         }
         return text.ToString();
+
 
         static string GetFolderString(ToDoFolder FolderItem, string indentLiteral, int indentLength)
         {
