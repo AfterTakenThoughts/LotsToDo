@@ -71,8 +71,7 @@ public class FileArchive : IToDoFileIO
         ToDoFolder otherContent = new("Other Items");
         using StringReader reader = new(content);
 
-        Stack<FolderIndent> parentBranch = [];
-        FolderIndent? folderBuild = null;
+        Stack<FolderIndent> folderBranch = [];
         int notCapturedIndent = -1;
 
         ToDoItem? itemBuild = null;
@@ -86,11 +85,11 @@ public class FileArchive : IToDoFileIO
             string[] splitLines = noIndentContents.Split(':');
 
             //Happens on next loop to capture indent.
-            if (folderBuild != null && folderBuild.IndentLength == notCapturedIndent)
+            if (folderBranch.Count != 0 && folderBranch.Peek().IndentLength == notCapturedIndent)
             {
-                folderBuild.IndentLength = IndentHandling.GetIndentLength(line);
+                folderBranch.Peek().IndentLength = IndentHandling.GetIndentLength(line);
             }
-            if (itemBuild != null && folderBuild != null && indentLength != folderBuild.IndentLength)
+            if (itemBuild != null && folderBranch.Count != 0 && indentLength != folderBranch.Peek().IndentLength)
             {
                 itemBuild = ParseToDoItem.ParseProperties(itemBuild, noIndentContents);
                 isParsingProperties = true;
@@ -98,68 +97,61 @@ public class FileArchive : IToDoFileIO
 
             if (splitLines[0].TrimEnd().EndsWith("Folder"))
             {
-                GetFolder(splitLines[1], indentLength);
+                AddAndCreateFolder(splitLines[1], indentLength);
             }
             else
             {
-                GetItem(noIndentContents, indentLength);
+                AddAndCreateItem(noIndentContents, indentLength);
             }
         }
-        parentBranch ??= [];
-        if (folderBuild != null)
-        {
-            if (itemBuild != null)
-            {
-                folderBuild.Folder.Item.Add(itemBuild);
-            }
-            parentBranch.Push(folderBuild);
-        }
+        folderBranch ??= [];
+        AddAndCreateItem("", 0);
         RestructureFolder();
-        folders.Add(parentBranch.Peek().Folder);
+        AddToListing();
         return folders;
 
-        void GetFolder(string name, int indentLength)
+        void AddAndCreateFolder(string name, int indentLength)
         {
-            if (folderBuild == null)
-            {
-                folderBuild = new(new(name.Trim()), notCapturedIndent);
-            }
-            else
+            if (folderBranch.Count != 0)
             {
                 if (itemBuild != null)
                 {
-                    folderBuild.Folder.Item.Add(itemBuild);
-                    CreateNewItem();
+                    folderBranch.Peek().Folder.Item.Add(itemBuild);
+                    ResetItem();
                 }
-                parentBranch.Push(folderBuild);
-                if (indentLength >= folderBuild.IndentLength)
+                if (indentLength < folderBranch.Peek().IndentLength)
                 {
                     RestructureFolder(indentLength);
+                    AddToListing(indentLength);
                 }
-                folderBuild = new(new(name.Trim()), notCapturedIndent);
             }
+            folderBranch.Push(new(new(name.Trim()), notCapturedIndent));
         }
-        void GetItem(string content, int indentLength)
+        void AddAndCreateItem(string content, int indentLength)
         {
             if (itemBuild != null)
             {
-                if (folderBuild == null)
+                if (folderBranch.Count == 0)
                 {
                     //Special case to capture other objects not categorized by folder.
                     otherContent.Item.Add(itemBuild);
                     CreateNewItem(content);
                 }
                 //Normal case
-                else if (indentLength == folderBuild.IndentLength && isParsingProperties)
+                else if (indentLength == folderBranch.Peek().IndentLength && isParsingProperties)
                 {
-                    folderBuild.Folder.Item.Add(itemBuild);
+                    folderBranch.Peek().Folder.Item.Add(itemBuild);
                     CreateNewItem(content);
                 }
                 //Special case where a seperator for a task occurs.
                 else if (String.IsNullOrWhiteSpace(content))
                 {
-                    folderBuild.Folder.Item.Add(itemBuild);
+                    folderBranch.Peek().Folder.Item.Add(itemBuild);
                     CreateNewItem();
+                }
+                else if (isParsingProperties == false)
+                {
+                    itemBuild.Content += content;
                 }
             }
             else
@@ -169,20 +161,32 @@ public class FileArchive : IToDoFileIO
         }
         void RestructureFolder(int indentLength = -1)
         {
-            while (indentLength >= parentBranch.Peek().IndentLength && parentBranch.Count > 0)
+            while (indentLength < folderBranch.Peek().IndentLength && folderBranch.Count >= 2)
             {
-                ToDoFolder childFolder = parentBranch.Pop().Folder;
+                ToDoFolder childFolder = folderBranch.Pop().Folder;
 
-                FolderIndent currentItem = parentBranch.Peek();
+                FolderIndent currentItem = folderBranch.Peek();
                 currentItem.Folder.Folder.Add(childFolder);
 
-                parentBranch.Pop();
-                parentBranch.Push(currentItem);
+                folderBranch.Pop();
+                folderBranch.Push(currentItem);
+            }
+        }
+        void AddToListing(int indentLength = -1)
+        {
+            if (indentLength < folderBranch.Peek().IndentLength && folderBranch.Count == 1)
+            {
+                folders.Add(folderBranch.Pop().Folder);
             }
         }
         void CreateNewItem(string content = "")
         {
             itemBuild = new(content);
+            isParsingProperties = false;
+        }
+        void ResetItem()
+        {
+            itemBuild = null;
             isParsingProperties = false;
         }
     }

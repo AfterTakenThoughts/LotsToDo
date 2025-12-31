@@ -22,17 +22,17 @@ public class ArchiveImportTest
         TestPath = "Tests/TextExport1";
 
         FileName = "todo";
-        SimpleFolder = new ToDoFolder("TestOther",
+        SimpleFolder = new ToDoFolder("Test1",
             [
                 new ToDoItem("TestOtherContent")
             ]
         );
-        SimpleFolderWithTime = new ToDoFolder("TestOther",
+        SimpleFolderWithTime = new ToDoFolder("Test2",
             [
                 new ToDoItem("TestOtherContent", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1))
             ]
         );
-        SimpleFolderWithTags = new ToDoFolder("TestOther",
+        SimpleFolderWithTags = new ToDoFolder("Test3",
             [
                 new ToDoItem("TestOtherContent", null, null, new()
                 {
@@ -41,7 +41,7 @@ public class ArchiveImportTest
                 })
             ]
         );
-        ComplexFolder = new ToDoFolder("Test",
+        ComplexFolder = new ToDoFolder("Test4",
             [
                 new ToDoItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1)),
                 new ToDoItem("Test2", new DateTime(2025, 10, 14, 10, 1, 1), new DateTime(2025, 10, 15, 12, 10, 30), new()
@@ -113,11 +113,7 @@ public class ArchiveImportTest
 
         if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
         {
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(testFolder.Find(x => x.FolderName == "Test").ToString(), Is.EqualTo(ComplexFolder.ToString()));
-                Assert.That(testFolder.Find(x => x.FolderName == "TestOther").ToString(), Is.EqualTo(SimpleFolder.ToString()));
-            }
+            Assert.That(testFolder[0].ToString(), Is.EqualTo(ComplexFolder.ToString()));
         }
         else
         {
@@ -128,14 +124,17 @@ public class ArchiveImportTest
     public void ParseAllTest()
     {
         FileArchive fileExport = new();
-        fileExport.Export(TestPath, FileName, SimpleFolder, SimpleFolderWithTags, ComplexFolder);
+        fileExport.Export(TestPath, FileName, SimpleFolder, SimpleFolderWithTime, SimpleFolderWithTags, ComplexFolder);
 
         if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
         {
+            TestContext.Out.WriteLine(File.ReadAllText(TestPath + "/" + FileName + ".txt"));
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(testFolder.Find(x => x.FolderName == "Test").ToString(), Is.EqualTo(ComplexFolder.ToString()));
-                Assert.That(testFolder.Find(x => x.FolderName == "TestOther").ToString(), Is.EqualTo(SimpleFolder.ToString()));
+                Assert.That(testFolder.Find(x => x.FolderName == "Test1").ToString(), Is.EqualTo(SimpleFolder.ToString()));
+                Assert.That(testFolder.Find(x => x.FolderName == "Test2").ToString(), Is.EqualTo(SimpleFolderWithTime.ToString()));
+                Assert.That(testFolder.Find(x => x.FolderName == "Test3").ToString(), Is.EqualTo(SimpleFolderWithTags.ToString()));
+                Assert.That(testFolder.Find(x => x.FolderName == "Test4").ToString(), Is.EqualTo(ComplexFolder.ToString()));
             }
         }
         else

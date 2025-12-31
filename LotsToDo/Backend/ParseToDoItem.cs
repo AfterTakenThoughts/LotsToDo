@@ -21,6 +21,7 @@ public static class ParseToDoItem
 
         static Dictionary<string, List<string>> ParseTags(int startStringIndex, string content)
         {
+            string contentWithoutTag = content[(startStringIndex + 1)..].Trim().TrimStart(':').Trim();
             Dictionary<string, List<string>> tags = [];
 
             string tagName = "";
@@ -28,9 +29,22 @@ public static class ParseToDoItem
 
             bool insideParenthesis = false;
             StringBuilder word = new();
-            for (int i = startStringIndex; i < content.Length; i++)
+            for (int i = 0; i < contentWithoutTag.Length; i++)
             {
-                switch (content[i])
+                //Ordered so it performs on the next loop (don't include '(')
+                if (insideParenthesis)
+                {
+                    if (contentWithoutTag[i] == ',' || contentWithoutTag[i] == ')')
+                    {
+                        tagContents.Add(word.ToString().Trim());
+                        word.Clear();
+                    }
+                    else
+                    {
+                        word.Append(contentWithoutTag[i]);
+                    }
+                }
+                switch (contentWithoutTag[i])
                 {
                     case '(':
                         insideParenthesis = true;
@@ -49,21 +63,12 @@ public static class ParseToDoItem
                             word.Clear();
                         }
                         break;
-                }
-                if (insideParenthesis)
-                {
-                    if (content[i] != ',')
-                    {
-                        tagContents.Add(word.ToString().Trim());
-                    }
-                    else
-                    {
-                        word.Append(content[i]);
-                    }
-                }
-                else if (Char.IsWhiteSpace(content[i]) == false && content[i] != ':' && content[i] != ',')
-                {
-                    word.Append(content[i]);
+                    default:
+                        if (insideParenthesis == false && Char.IsWhiteSpace(contentWithoutTag[i]) == false && contentWithoutTag[i] != ':' && contentWithoutTag[i] != ',')
+                        {
+                            word.Append(contentWithoutTag[i]);
+                        }
+                        break;
                 }
             }
             return tags;
@@ -103,7 +108,6 @@ public static class ParseToDoItem
             }
 
 
-
             void ParseWord(string word, string targetWord)
             {
                 int startIndex = word.IndexOf(targetWord);
@@ -114,7 +118,6 @@ public static class ParseToDoItem
                 }
                 parsedPhrase = new(word[endIndex..]);
             }
-
             void ParseDateTime(StringBuilder content, SelectTime selectTime)
             {
                 if (content == null || content.Length == 0)
