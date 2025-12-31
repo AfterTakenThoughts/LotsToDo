@@ -9,18 +9,37 @@ namespace LotsToDo.Backend.FileIO;
 // Example string format:
 // Folder: Test
 //     Test1
-//         Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {Folder.Item[0].CreateTime:MM/dd/yyyy HH:mm}
+//         Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: 12/31/2025 00:34
 //     Test2
-//         Start: 10/14/2025 10:01, Due: 10/15/2025 12:10, Created: {Folder.Item[1].CreateTime:MM/dd/yyyy HH:mm}
+//         Start: 10/14/2025 10:01, Due: 10/15/2025 12:10, Created: 12/31/2025 00:34
 //         Tags: foo: (bar, baz), foo2: (bar2, baz)
 //     Folder: TestInner
 //         Test1
-//             Created: {Folder.Folder[0].Item[0].CreateTime:MM/dd/yyyy HH:mm}
+//             Created: 12/31/2025 00:34
 //     Folder: TestInner2
 //         Test2
-//             Created: {Folder.Folder[0].Item[0].CreateTime:MM/dd/yyyy HH:mm}
+//             Created: 12/31/2025 00:34
+// Folder: TestOther
+//     TestOtherContent
+//         Created: 12/31/2025 00:34
 public class FileArchive : IToDoFileIO
 {
+    class FolderIndent
+    {
+        public FolderIndent()
+        {
+            Folder = new();
+            IndentLength = -1;
+        }
+        public FolderIndent(ToDoFolder folder, int indentLevel)
+        {
+            Folder = folder;
+            IndentLength = indentLevel;
+        }
+        public ToDoFolder Folder { get; set; }
+        public int IndentLength { get; set; }
+    }
+
     public void Export(string relativePath, string fileName, params ToDoFolder[] folders)
     {
         string fullPath = relativePath + "/" + fileName + ".txt";
@@ -50,28 +69,122 @@ public class FileArchive : IToDoFileIO
     {
         List<ToDoFolder> folders = [];
         ToDoFolder otherContent = new("Other Items");
-
         using StringReader reader = new(content);
-        List<(int index, int indent)> FolderLevel = [];
 
-        ToDoItem selectedItem = new();
-        //Needed as when finding the folder indent, next line contains indent info instead of current line.
-        bool isCatchingIndent = false;
+        Stack<FolderIndent> parentBranch = [];
+        FolderIndent? folderBuild = null;
+        int notCapturedIndent = -1;
+
+        ToDoItem? itemBuild = null;
+        //Used to block creating a new item until it parses properties (detected by indents)
+        bool isParsingProperties = false;
+
         for (string? line = reader.ReadLine(); line != null; line = reader.ReadLine())
         {
-            int indentCount = IndentHandling.GetIndentCount(line);
+            int indentLength = IndentHandling.GetIndentLength(line);
             string noIndentContents = line.TrimStart();
             string[] splitLines = noIndentContents.Split(':');
-            // if (splitLines[0].Trim().Equals("Folder"))
-            // {
-            //     Folder
-            // }
-            // else if (splitLines.Length == 1)
-            // {
-            //     selected
-            // }
+
+            //Happens on next loop to capture indent.
+            if (folderBuild != null && folderBuild.IndentLength == notCapturedIndent)
+            {
+                folderBuild.IndentLength = IndentHandling.GetIndentLength(line);
+            }
+            if (itemBuild != null && folderBuild != null && indentLength != folderBuild.IndentLength)
+            {
+                itemBuild = ParseToDoItem.ParseProperties(itemBuild, noIndentContents);
+                isParsingProperties = true;
+            }
+
+            if (splitLines[0].TrimEnd().EndsWith("Folder"))
+            {
+                GetFolder(splitLines[1], indentLength);
+            }
+            else
+            {
+                GetItem(noIndentContents, indentLength);
+            }
         }
+        parentBranch ??= [];
+        if (folderBuild != null)
+        {
+            if (itemBuild != null)
+            {
+                folderBuild.Folder.Item.Add(itemBuild);
+            }
+            parentBranch.Push(folderBuild);
+        }
+        RestructureFolder();
+        folders.Add(parentBranch.Peek().Folder);
         return folders;
+
+        void GetFolder(string name, int indentLength)
+        {
+            if (folderBuild == null)
+            {
+                folderBuild = new(new(name.Trim()), notCapturedIndent);
+            }
+            else
+            {
+                if (itemBuild != null)
+                {
+                    folderBuild.Folder.Item.Add(itemBuild);
+                    CreateNewItem();
+                }
+                parentBranch.Push(folderBuild);
+                if (indentLength >= folderBuild.IndentLength)
+                {
+                    RestructureFolder(indentLength);
+                }
+                folderBuild = new(new(name.Trim()), notCapturedIndent);
+            }
+        }
+        void GetItem(string content, int indentLength)
+        {
+            if (itemBuild != null)
+            {
+                if (folderBuild == null)
+                {
+                    //Special case to capture other objects not categorized by folder.
+                    otherContent.Item.Add(itemBuild);
+                    CreateNewItem(content);
+                }
+                //Normal case
+                else if (indentLength == folderBuild.IndentLength && isParsingProperties)
+                {
+                    folderBuild.Folder.Item.Add(itemBuild);
+                    CreateNewItem(content);
+                }
+                //Special case where a seperator for a task occurs.
+                else if (String.IsNullOrWhiteSpace(content))
+                {
+                    folderBuild.Folder.Item.Add(itemBuild);
+                    CreateNewItem();
+                }
+            }
+            else
+            {
+                CreateNewItem(content);
+            }
+        }
+        void RestructureFolder(int indentLength = -1)
+        {
+            while (indentLength >= parentBranch.Peek().IndentLength && parentBranch.Count > 0)
+            {
+                ToDoFolder childFolder = parentBranch.Pop().Folder;
+
+                FolderIndent currentItem = parentBranch.Peek();
+                currentItem.Folder.Folder.Add(childFolder);
+
+                parentBranch.Pop();
+                parentBranch.Push(currentItem);
+            }
+        }
+        void CreateNewItem(string content = "")
+        {
+            itemBuild = new(content);
+            isParsingProperties = false;
+        }
     }
 
     public static string GetString(ToDoFolder FolderItem, int indentLength)
@@ -79,29 +192,30 @@ public class FileArchive : IToDoFileIO
         string indentLiteral = "    ";
         StringBuilder text = new();
 
-        Stack<(ToDoFolder, int depth)> folderStack = new();
-        folderStack.Push((FolderItem, 0));
+        Stack<FolderIndent> folderStack = new();
+        folderStack.Push(new(FolderItem, 0));
 
         while (folderStack.Count > 0)
         {
-            (ToDoFolder currentFolder, int depth) = folderStack.Pop();
+            FolderIndent folderObject = folderStack.Pop();
+            ToDoFolder folder = folderObject.Folder;
+            int indentLevel = folderObject.IndentLength;
 
-            text.Append(GetFolderString(currentFolder, indentLiteral, indentLength + depth));
-            if (currentFolder.Item != null && currentFolder.Item.Count != 0)
+            text.Append(GetFolderString(folder, indentLiteral, indentLength + indentLevel));
+            if (folder.Item != null && folder.Item.Count != 0)
             {
-                text.AppendLine();
-                text.Append($"{Environment.NewLine}{GetContentString(currentFolder, indentLiteral, indentLength + depth)}");
+                text.Append($"{Environment.NewLine}{GetContentString(folder, indentLiteral, indentLength + indentLevel)}");
             }
-            if (currentFolder.Folder != null && currentFolder.Folder.Count != 0)
+            if (folder.Folder != null && folder.Folder.Count != 0)
             {
-                for (int i = currentFolder.Folder.Count - 1; i >= 0; i--)
+                for (int i = folder.Folder.Count - 1; i >= 0; i--)
                 {
-                    folderStack.Push((currentFolder.Folder[i], depth + 1));
+                    folderStack.Push(new(folder.Folder[i], indentLevel + 1));
                 }
             }
 
             //Check after pop, not before pop to prevent adding a new line at the end of string.
-            if(folderStack.Count > 0)
+            if (folderStack.Count > 0)
             {
                 text.AppendLine();
             }
@@ -119,4 +233,6 @@ public class FileArchive : IToDoFileIO
             return String.Join(Environment.NewLine, FolderItem.Item.Select(x => IndentHandling.IndentString(x.ToString(), itemIndent)));
         }
     }
+
+
 }

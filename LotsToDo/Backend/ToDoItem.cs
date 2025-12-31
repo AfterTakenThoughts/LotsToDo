@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.FileIO;
 
 namespace LotsToDo.Backend;
 
@@ -79,29 +82,13 @@ public class ToDoItem
     }
     StringBuilder TagsToString(StringBuilder item, string indent)
     {
-        item.Append(Environment.NewLine);
-        item.Append($"{indent}Tags: ");
+        item.Append($"{Environment.NewLine}{indent}Tags: ");
         foreach (KeyValuePair<string, List<string>> tagPair in Tags)
         {
-            item.Append($"{tagPair.Key}: (");
-            for (int i = 0; i < tagPair.Value.Count; i++)
+            item.Append($"{tagPair.Key}: ({String.Join(", ", tagPair.Value)})");
+            if (tagPair.Key.Equals(Tags.Last().Key) == false)
             {
-                if (i == tagPair.Value.Count - 1)
-                {
-                    item.Append(tagPair.Value[i]);
-                }
-                else
-                {
-                    item.Append($"{tagPair.Value[i]}, ");
-                }
-            }
-            if (tagPair.Key.Equals(Tags.Last().Key))
-            {
-                item.Append(')');
-            }
-            else
-            {
-                item.Append("), ");
+                item.Append(", ");
             }
         }
         return item;

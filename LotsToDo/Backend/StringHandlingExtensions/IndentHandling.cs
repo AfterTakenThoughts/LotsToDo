@@ -35,7 +35,7 @@ public class IndentHandling
         return IndentString(new StringBuilder(content), indentLiteral, indentLength).ToString();
     }
 
-    public static int GetIndentCount(string line)
+    public static int GetIndentLength(string line)
     {
         return line.TakeWhile(Char.IsWhiteSpace).Count();
     }
