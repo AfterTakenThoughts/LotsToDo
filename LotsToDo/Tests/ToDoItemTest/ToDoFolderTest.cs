@@ -5,26 +5,26 @@ namespace LotsToDo.Tests.ToDoItemTest;
 
 class ToDoFolderTest
 {
-    public required ToDoFolder Folder { get; set; }
+    public required TaskFolder Folder { get; set; }
     [SetUp]
     public void Setup()
     {
-        Folder = new ToDoFolder("Test",
+        Folder = new TaskFolder("Test",
             [
-                new ToDoItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1)),
-                new ToDoItem("Test2", new DateTime(2025, 10, 14, 10, 1, 1), new DateTime(2025, 10, 15, 12, 10, 30), new()
+                new TaskItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1)),
+                new TaskItem("Test2", new DateTime(2025, 10, 14, 10, 1, 1), new DateTime(2025, 10, 15, 12, 10, 30), new()
                 {
                     { "foo", ["bar", "baz"] },
                     { "foo2", ["bar2", "baz"] }
                 })
             ],
-            new ToDoFolder("TestInner",
+            new TaskFolder("TestInner",
             [
-                new ToDoItem("Test1")
+                new TaskItem("Test1")
             ]),
-            new ToDoFolder("TestInner2",
+            new TaskFolder("TestInner2",
             [
-                new ToDoItem("Test2")
+                new TaskItem("Test2")
             ])
         );
     }
@@ -41,7 +41,7 @@ class ToDoFolderTest
     [Test]
     public void EmptyFolderToStringTest()
     {
-        ToDoFolder folder = new("Test");
+        TaskFolder folder = new("Test");
         string testItem = $"""
             Folder: Test
             """;

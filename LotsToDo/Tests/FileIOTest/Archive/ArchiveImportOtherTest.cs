@@ -10,8 +10,8 @@ namespace LotsToDo.Tests.FileIOTest.Archive;
 
 public class ArchiveImportOtherTest
 {
-    public required ToDoFolder EmptyFolder { get; set; }
-    public required ToDoFolder SameNameFolder { get; set; }
+    public required TaskFolder EmptyFolder { get; set; }
+    public required TaskFolder SameNameFolder { get; set; }
     public required string TestPath { get; set; }
     public required string FileName { get; set; }
     [SetUp]
@@ -20,10 +20,10 @@ public class ArchiveImportOtherTest
         TestPath = "Tests/TextExport1";
 
         FileName = "todo";
-        EmptyFolder = new ToDoFolder("Test");
-        SameNameFolder = new ToDoFolder("Folder",
+        EmptyFolder = new TaskFolder("Test");
+        SameNameFolder = new TaskFolder("Folder",
             [
-                new ToDoItem("TestOtherContent")
+                new TaskItem("TestOtherContent")
             ]
         );
     }
@@ -33,7 +33,7 @@ public class ArchiveImportOtherTest
         FileArchive fileExport = new();
         fileExport.Export(TestPath, FileName, EmptyFolder);
 
-        if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
+        if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
         {
             Assert.That(testFolder[0].ToString(), Is.EqualTo(EmptyFolder.ToString()));
         }
@@ -48,7 +48,7 @@ public class ArchiveImportOtherTest
         FileArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SameNameFolder);
 
-        if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
+        if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
         {
             Assert.That(testFolder[0].ToString(), Is.EqualTo(SameNameFolder.ToString()));
         }

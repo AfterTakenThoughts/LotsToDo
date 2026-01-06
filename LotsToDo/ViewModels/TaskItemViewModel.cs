@@ -7,7 +7,7 @@ namespace LotsToDo.ViewModels;
 /// <summary>
 /// This is a ViewModel which represents a <see cref="Models.ToDoItem"/>
 /// </summary>
-public partial class ToDoItemViewModel : ViewModelBase
+public partial class TaskItemViewModel : ViewModelBase
 {
     [ObservableProperty]
     private bool _IsCompleted;
@@ -24,12 +24,12 @@ public partial class ToDoItemViewModel : ViewModelBase
     [ObservableProperty]
     private DateTime _CreateTime;
 
-    public ToDoItemViewModel()
+    public TaskItemViewModel()
     {
         Content = "";
     }
 
-    public ToDoItemViewModel(ToDoItem item)
+    public TaskItemViewModel(TaskItem item)
     {
         IsCompleted = item.IsCompleted;
         Content = item.Content;
@@ -37,8 +37,8 @@ public partial class ToDoItemViewModel : ViewModelBase
         DueDate = item.DueDate;
         CreateTime = item.CreateTime;
     }
-    public ToDoItem GetItem()
+    public TaskItem GetItem()
     {
-        return new ToDoItem(Content, StartTime, DueDate);
+        return new TaskItem(Content, StartTime, DueDate);
     }
 }

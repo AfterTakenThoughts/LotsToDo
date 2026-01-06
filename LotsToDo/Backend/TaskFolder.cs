@@ -7,23 +7,23 @@ using LotsToDo.Backend.StringHandlingExtensions;
 namespace LotsToDo.Backend;
 
 
-public class ToDoFolder
+public class TaskFolder
 {
-    public ToDoFolder()
+    public TaskFolder()
     {
         FolderName = "";
         Item = [];
         Folder = [];
     }
-    public ToDoFolder(string folderName, List<ToDoItem>? item = null, params List<ToDoFolder> folder)
+    public TaskFolder(string folderName, List<TaskItem>? item = null, params List<TaskFolder> folder)
     {
         FolderName = folderName;
         Item = item ?? [];
         Folder = folder;
     }
     public string FolderName { get; set; }
-    public List<ToDoItem> Item { get; set; }
-    public List<ToDoFolder> Folder { get; set; }
+    public List<TaskItem> Item { get; set; }
+    public List<TaskFolder> Folder { get; set; }
     public override string ToString()
     {
         return FileArchive.GetString(this, 0);

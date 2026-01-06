@@ -4,13 +4,13 @@ using System.Text;
 
 namespace LotsToDo.Backend;
 
-public class ToDoList
+public class TaskList
 {
-    public ToDoList()
+    public TaskList()
     {
         ToDoFolderList = [];
     }
-    public List<ToDoFolder> ToDoFolderList { get; set; }
+    public List<TaskFolder> ToDoFolderList { get; set; }
     public void Export()
     {
         // StringBuilder text = new();

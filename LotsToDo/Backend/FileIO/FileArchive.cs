@@ -31,16 +31,16 @@ public class FileArchive : IToDoFileIO
             Folder = new();
             IndentLength = -1;
         }
-        public FolderIndent(ToDoFolder folder, int indentLevel)
+        public FolderIndent(TaskFolder folder, int indentLevel)
         {
             Folder = folder;
             IndentLength = indentLevel;
         }
-        public ToDoFolder Folder { get; set; }
+        public TaskFolder Folder { get; set; }
         public int IndentLength { get; set; }
     }
 
-    public void Export(string relativePath, string fileName, params ToDoFolder[] folders)
+    public void Export(string relativePath, string fileName, params TaskFolder[] folders)
     {
         string fullPath = relativePath + "/" + fileName + ".txt";
         string content = String.Join(Environment.NewLine, folders.Select(x => x.ToString()));
@@ -49,7 +49,7 @@ public class FileArchive : IToDoFileIO
         File.AppendAllText(fullPath, content);
     }
 
-    public bool Import(string relativePath, string fileName, out List<ToDoFolder> folders)
+    public bool Import(string relativePath, string fileName, out List<TaskFolder> folders)
     {
         string fullPath = relativePath + "/" + fileName + ".txt";
 
@@ -65,16 +65,16 @@ public class FileArchive : IToDoFileIO
         }
     }
 
-    public static List<ToDoFolder> FolderFromString(string content)
+    public static List<TaskFolder> FolderFromString(string content)
     {
-        List<ToDoFolder> folders = [];
-        ToDoFolder otherContent = new("Other Items");
+        List<TaskFolder> folders = [];
+        TaskFolder otherContent = new("Other Items");
         using StringReader reader = new(content);
 
         Stack<FolderIndent> folderBranch = [];
         int notCapturedIndent = -1;
 
-        ToDoItem? itemBuild = null;
+        TaskItem? itemBuild = null;
         //Used to block creating a new item until it parses properties (detected by indents)
         bool isParsingProperties = false;
 
@@ -91,7 +91,7 @@ public class FileArchive : IToDoFileIO
             }
             if (itemBuild != null && folderBranch.Count != 0 && indentLength != folderBranch.Peek().IndentLength)
             {
-                itemBuild = ParseToDoItem.ParseProperties(itemBuild, noIndentContents);
+                itemBuild = ParseTaskItem.ParseProperties(itemBuild, noIndentContents);
                 isParsingProperties = true;
             }
 
@@ -163,7 +163,7 @@ public class FileArchive : IToDoFileIO
         {
             while (indentLength < folderBranch.Peek().IndentLength && folderBranch.Count >= 2)
             {
-                ToDoFolder childFolder = folderBranch.Pop().Folder;
+                TaskFolder childFolder = folderBranch.Pop().Folder;
 
                 FolderIndent currentItem = folderBranch.Peek();
                 currentItem.Folder.Folder.Add(childFolder);
@@ -191,7 +191,7 @@ public class FileArchive : IToDoFileIO
         }
     }
 
-    public static string GetString(ToDoFolder FolderItem, int indentLength)
+    public static string GetString(TaskFolder FolderItem, int indentLength)
     {
         string indentLiteral = "    ";
         StringBuilder text = new();
@@ -202,7 +202,7 @@ public class FileArchive : IToDoFileIO
         while (folderStack.Count > 0)
         {
             FolderIndent folderObject = folderStack.Pop();
-            ToDoFolder folder = folderObject.Folder;
+            TaskFolder folder = folderObject.Folder;
             int indentLevel = folderObject.IndentLength;
 
             text.Append(GetFolderString(folder, indentLiteral, indentLength + indentLevel));
@@ -227,11 +227,11 @@ public class FileArchive : IToDoFileIO
         return text.ToString();
 
 
-        static string GetFolderString(ToDoFolder FolderItem, string indentLiteral, int indentLength)
+        static string GetFolderString(TaskFolder FolderItem, string indentLiteral, int indentLength)
         {
             return $"{IndentHandling.GetIndent(indentLiteral, indentLength)}Folder: {FolderItem.FolderName}";
         }
-        static string GetContentString(ToDoFolder FolderItem, string indentLiteral, int indentLength)
+        static string GetContentString(TaskFolder FolderItem, string indentLiteral, int indentLength)
         {
             string itemIndent = IndentHandling.GetIndent(indentLiteral, indentLength + 1);
             return String.Join(Environment.NewLine, FolderItem.Item.Select(x => IndentHandling.IndentString(x.ToString(), itemIndent)));

@@ -10,10 +10,10 @@ namespace LotsToDo.Tests.FileIOTest.Archive;
 
 public class ArchiveImportTest
 {
-    public required ToDoFolder SimpleFolder { get; set; }
-    public required ToDoFolder SimpleFolderWithTime { get; set; }
-    public required ToDoFolder SimpleFolderWithTags { get; set; }
-    public required ToDoFolder ComplexFolder { get; set; }
+    public required TaskFolder SimpleFolder { get; set; }
+    public required TaskFolder SimpleFolderWithTime { get; set; }
+    public required TaskFolder SimpleFolderWithTags { get; set; }
+    public required TaskFolder ComplexFolder { get; set; }
     public required string TestPath { get; set; }
     public required string FileName { get; set; }
     [SetUp]
@@ -22,41 +22,41 @@ public class ArchiveImportTest
         TestPath = "Tests/TextExport1";
 
         FileName = "todo";
-        SimpleFolder = new ToDoFolder("Test1",
+        SimpleFolder = new TaskFolder("Test1",
             [
-                new ToDoItem("TestOtherContent")
+                new TaskItem("TestOtherContent")
             ]
         );
-        SimpleFolderWithTime = new ToDoFolder("Test2",
+        SimpleFolderWithTime = new TaskFolder("Test2",
             [
-                new ToDoItem("TestOtherContent", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1))
+                new TaskItem("TestOtherContent", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1))
             ]
         );
-        SimpleFolderWithTags = new ToDoFolder("Test3",
+        SimpleFolderWithTags = new TaskFolder("Test3",
             [
-                new ToDoItem("TestOtherContent", null, null, new()
+                new TaskItem("TestOtherContent", null, null, new()
                 {
                     { "foo", ["bar", "baz"] },
                     { "foo2", ["bar2", "baz"] }
                 })
             ]
         );
-        ComplexFolder = new ToDoFolder("Test4",
+        ComplexFolder = new TaskFolder("Test4",
             [
-                new ToDoItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1)),
-                new ToDoItem("Test2", new DateTime(2025, 10, 14, 10, 1, 1), new DateTime(2025, 10, 15, 12, 10, 30), new()
+                new TaskItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1)),
+                new TaskItem("Test2", new DateTime(2025, 10, 14, 10, 1, 1), new DateTime(2025, 10, 15, 12, 10, 30), new()
                 {
                     { "foo", ["bar", "baz"] },
                     { "foo2", ["bar2", "baz"] }
                 })
             ],
-            new ToDoFolder("TestInner",
+            new TaskFolder("TestInner",
             [
-                new ToDoItem("Test1")
+                new TaskItem("Test1")
             ]),
-            new ToDoFolder("TestInner2",
+            new TaskFolder("TestInner2",
             [
-                new ToDoItem("Test2")
+                new TaskItem("Test2")
             ])
         );
     }
@@ -66,7 +66,7 @@ public class ArchiveImportTest
         FileArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SimpleFolder);
 
-        if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
+        if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
         {
             Assert.That(testFolder[0].ToString(), Is.EqualTo(SimpleFolder.ToString()));
         }
@@ -81,7 +81,7 @@ public class ArchiveImportTest
         FileArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SimpleFolderWithTime);
 
-        if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
+        if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
         {
             Assert.That(testFolder[0].ToString(), Is.EqualTo(SimpleFolderWithTime.ToString()));
         }
@@ -96,7 +96,7 @@ public class ArchiveImportTest
         FileArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SimpleFolderWithTags);
 
-        if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
+        if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
         {
             Assert.That(testFolder[0].ToString(), Is.EqualTo(SimpleFolderWithTags.ToString()));
         }
@@ -111,7 +111,7 @@ public class ArchiveImportTest
         FileArchive fileExport = new();
         fileExport.Export(TestPath, FileName, ComplexFolder);
 
-        if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
+        if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
         {
             Assert.That(testFolder[0].ToString(), Is.EqualTo(ComplexFolder.ToString()));
         }
@@ -126,7 +126,7 @@ public class ArchiveImportTest
         FileArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SimpleFolder, SimpleFolderWithTime, SimpleFolderWithTags, ComplexFolder);
 
-        if (fileExport.Import(TestPath, FileName, out List<ToDoFolder> testFolder))
+        if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
         {
             TestContext.Out.WriteLine(File.ReadAllText(TestPath + "/" + FileName + ".txt"));
             using (Assert.EnterMultipleScope())

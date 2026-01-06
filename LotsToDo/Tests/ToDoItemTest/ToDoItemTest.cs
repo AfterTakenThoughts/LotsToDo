@@ -5,11 +5,11 @@ namespace LotsToDo.Tests.ToDoItemTest;
 
 class ToDoItemTest
 {
-    public required ToDoItem Item { get; set; }
+    public required TaskItem Item { get; set; }
     [SetUp]
     public void Setup()
     {
-        Item = new ToDoItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1), new()
+        Item = new TaskItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1), new()
         {
             { "foo", ["bar", "baz"] },
             { "foo2", ["bar2", "baz"] }
@@ -39,7 +39,7 @@ class ToDoItemTest
     [Test]
     public void NoTagTest()
     {
-        ToDoItem testItem = new("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1));
+        TaskItem testItem = new("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1));
         string testString = $"""
             Test1
                 Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}
@@ -49,7 +49,7 @@ class ToDoItemTest
     [Test]
     public void NoTagNoTimeTest()
     {
-        ToDoItem testItem = new("Test1");
+        TaskItem testItem = new("Test1");
         string testString = $"""
             Test1
                 Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}
@@ -59,7 +59,7 @@ class ToDoItemTest
     [Test]
     public void OtherCombinationTimeTest()
     {
-        ToDoItem testItem = new("Test1", new DateTime(2000, 1, 1, 1, 1, 1));
+        TaskItem testItem = new("Test1", new DateTime(2000, 1, 1, 1, 1, 1));
         string testString = $"""
             Test1
                 Start: 01/01/2000 01:01, Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}

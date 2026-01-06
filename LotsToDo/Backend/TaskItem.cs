@@ -18,7 +18,7 @@ namespace LotsToDo.Backend;
 //     public Dictionary<string, List<string>> Tags { get; set; }
 //     public string ToString();
 // }
-public class ToDoItem
+public class TaskItem
 {
     public bool IsCompleted { get; set; }
     public string Content { get; set; }
@@ -30,12 +30,12 @@ public class ToDoItem
     public static DateTime DefaultStartDate { get; } = DateTime.UtcNow;
     public static DateTime DefaultDueDate { get; } = DateTime.UtcNow.AddDays(1);
 
-    public ToDoItem()
+    public TaskItem()
     {
         Content = "";
         Tags = [];
     }
-    public ToDoItem(string content, DateTime? startTime = null, DateTime? dueDate = null, Dictionary<string, List<string>>? tags = default)
+    public TaskItem(string content, DateTime? startTime = null, DateTime? dueDate = null, Dictionary<string, List<string>>? tags = default)
     {
         Content = content;
         StartTime = startTime;

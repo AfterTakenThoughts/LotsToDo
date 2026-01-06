@@ -7,7 +7,7 @@
     x:Class="LotsToDo.Views.InitialScreen.RecommendedTasks"
     x:DataType="vm:MainViewModel"
     Background="rgb(10, 10, 20)"
-    xmlns:controls="clr-namespace:LotsToDo.Views.InitialScreen">
+    xmlns:controls="clr-namespace:LotsToDo.Views.InitialScreen.TaskListing">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -25,13 +25,13 @@
             Today
         </TextBlock>
         <StackPanel>
-            <controls:TaskElement/>
+            <controls:TaskListing/>
         </StackPanel>
         <TextBlock
             Margin="10" FontSize="20" Foreground="White"
             FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
             Other Tasks...
         </TextBlock>
-        <Button HorizontalAlignment="Center" Background="White" Click="Button_Click">Show More</Button>
+        <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="White" Click="Button_Click">Add a Task</Button>
     </StackPanel>
 </UserControl>

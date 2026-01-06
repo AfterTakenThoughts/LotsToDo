@@ -7,7 +7,7 @@ namespace LotsToDo.Tests.FileIOTest.ToDoTxt;
 
 public class ToDoTxtExportTest
 {
-    public required ToDoFolder Folder { get; set; }
+    public required TaskFolder Folder { get; set; }
     public required string TestPath { get; set; }
     public required string FileName { get; set; }
     [SetUp]
@@ -17,8 +17,8 @@ public class ToDoTxtExportTest
         FileName = "archive";
 
         Folder =
-            new ToDoFolder("Test", [new ToDoItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1)), new ToDoItem("Test2", new DateTime(2025, 10, 14, 10, 1, 1), new DateTime(2025, 10, 15, 12, 10, 30))],
-                new ToDoFolder("TestInner", [new ToDoItem("Test1")])
+            new TaskFolder("Test", [new TaskItem("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1)), new TaskItem("Test2", new DateTime(2025, 10, 14, 10, 1, 1), new DateTime(2025, 10, 15, 12, 10, 30))],
+                new TaskFolder("TestInner", [new TaskItem("Test1")])
             );
     }
     [Test]

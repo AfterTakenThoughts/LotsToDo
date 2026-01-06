@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using LotsToDo.Backend;
 
-public static class ParseToDoItem
+public static class ParseTaskItem
 {
-    public static ToDoItem ParseProperties(ToDoItem item, string content)
+    public static TaskItem ParseProperties(TaskItem item, string content)
     {
         string[] splitLines = content.Split(':');
         if (splitLines[0].TrimEnd().EndsWith("Tags") && splitLines.Length >= 2)
