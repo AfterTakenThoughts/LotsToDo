@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:LotsToDo.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="LotsToDo.Views.InitialScreen.AddTaskElement.AddTaskElement"
+        x:DataType="vm:MainViewModel">
+
+    <TextBox Text="{Binding TextBoxItemEntry}" Watermark="Add a new task..." Margin="10" Height="30" Width="400">
+        <TextBox.InnerRightContent>
+            <Button Command="{Binding AddItemCommand}">
+                Add Task
+            </Button>
+        </TextBox.InnerRightContent>
+        <TextBox.KeyBindings>
+            <KeyBinding Command="{Binding AddItemCommand}" Gesture="Enter" />
+        </TextBox.KeyBindings>
+
+        <TextBox.Styles>
+            <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
+                <Setter Property="Foreground" Value="rgba(127, 127, 255, 1)" />
+            </Style>
+            <Style Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark">
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+
+            <Style Selector="TextBox /template/ Border">
+                <Setter Property="Background" Value="rgb(25, 25, 50)" />
+            </Style>
+            <Style Selector="TextBox:pointerover /template/ Border">
+                <Setter Property="Background" Value="rgb(25, 25, 50)" />
+            </Style>
+            <Style Selector="TextBox:focus /template/ Border">
+                <Setter Property="Background" Value="rgb(25, 25, 50)" />
+            </Style>
+
+            <Style Selector="Button">
+                <Setter Property="Background" Value="rgba(127, 127, 255, 1)" />
+            </Style>
+        </TextBox.Styles>
+    </TextBox>
+</UserControl>

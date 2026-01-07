@@ -3,35 +3,37 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:LotsToDo.ViewModels"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
     x:Class="LotsToDo.Views.InitialScreen.RecommendedTasks"
     x:DataType="vm:MainViewModel"
     Background="rgb(10, 10, 20)"
-    xmlns:controls="clr-namespace:LotsToDo.Views.InitialScreen.TaskListing">
+    xmlns:control1="clr-namespace:LotsToDo.Views.InitialScreen.TaskListing"
+    xmlns:control2="clr-namespace:LotsToDo.Views.InitialScreen.AddTaskElement">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <StackPanel>
-        <TextBlock Margin="20" FontSize="20" Foreground="White"
-            FontWeight="SemiBold" HorizontalAlignment="Left" VerticalAlignment="Top">
-            Recommended
-        </TextBlock>
-        <TextBlock
-            Margin="10" FontSize="20" Foreground="White"
-            FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
-            Today
-        </TextBlock>
+    <Grid>
         <StackPanel>
-            <controls:TaskListing/>
+            <TextBlock Margin="20" FontSize="20" Foreground="White"
+                FontWeight="SemiBold" HorizontalAlignment="Left" VerticalAlignment="Top">
+                Recommended
+            </TextBlock>
+            <TextBlock
+                Margin="10" FontSize="20" Foreground="White"
+                FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
+                Today
+            </TextBlock>
+            <control1:TaskListing/>
+            <TextBlock
+                Margin="10" FontSize="20" Foreground="White"
+                FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
+                Other Tasks...
+            </TextBlock>
         </StackPanel>
-        <TextBlock
-            Margin="10" FontSize="20" Foreground="White"
-            FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">
-            Other Tasks...
-        </TextBlock>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="White" Click="Button_Click">Add a Task</Button>
-    </StackPanel>
+        <!-- <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="White" Click="Button_Click">Add a Task</Button> -->
+        <control2:AddTaskElement Margin="0 50" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+    </Grid>
 </UserControl>
