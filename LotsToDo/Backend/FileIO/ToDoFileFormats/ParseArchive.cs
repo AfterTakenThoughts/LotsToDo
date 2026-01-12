@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using LotsToDo.Backend.StringHandlingExtensions;
+using LotsToDo.Backend.ToDoData;
 
-namespace LotsToDo.Backend.FileIO;
+namespace LotsToDo.Backend.FileIO.ToDoFileFormats;
 // Example string format:
 // Folder: Test
 //     Test1
@@ -22,7 +23,7 @@ namespace LotsToDo.Backend.FileIO;
 // Folder: TestOther
 //     TestOtherContent
 //         Created: 12/31/2025 00:34
-public class FileArchive : IToDoFileIO
+public class ParseArchive : IParseToDo
 {
     class FolderIndent
     {
@@ -43,7 +44,7 @@ public class FileArchive : IToDoFileIO
     public void Export(string relativePath, string fileName, params TaskFolder[] folders)
     {
         string fullPath = relativePath + "/" + fileName + ".txt";
-        string content = String.Join(Environment.NewLine, folders.Select(x => x.ToString()));
+        string content = string.Join(Environment.NewLine, folders.Select(x => x.ToString()));
 
         Directory.CreateDirectory(relativePath);
         File.AppendAllText(fullPath, content);
@@ -144,7 +145,7 @@ public class FileArchive : IToDoFileIO
                     CreateNewItem(content);
                 }
                 //Special case where a seperator for a task occurs.
-                else if (String.IsNullOrWhiteSpace(content))
+                else if (string.IsNullOrWhiteSpace(content))
                 {
                     folderBranch.Peek().Folder.Item.Add(itemBuild);
                     CreateNewItem();
@@ -234,7 +235,7 @@ public class FileArchive : IToDoFileIO
         static string GetContentString(TaskFolder FolderItem, string indentLiteral, int indentLength)
         {
             string itemIndent = IndentHandling.GetIndent(indentLiteral, indentLength + 1);
-            return String.Join(Environment.NewLine, FolderItem.Item.Select(x => IndentHandling.IndentString(x.ToString(), itemIndent)));
+            return string.Join(Environment.NewLine, FolderItem.Item.Select(x => IndentHandling.IndentString(x.ToString(), itemIndent)));
         }
     }
 

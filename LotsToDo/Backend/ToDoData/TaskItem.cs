@@ -1,30 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.FileIO;
 
 namespace LotsToDo.Backend;
 
-// public interface IToDoItem
-// {
-//     public bool IsCompleted { get; set; }
-//     public string Content { get; set; }
-//     public DateTime StartTime { get; set; }
-//     public DateTime DueDate { get; set; }
-//     public DateTime CreateTime { get; set; }
-//     public Dictionary<string, List<string>> Tags { get; set; }
-//     public string ToString();
-// }
 public class TaskItem
 {
     public bool IsCompleted { get; set; }
     public string Content { get; set; }
-    public DateTime? StartTime { get; set; }
+    public DateTime? StartDate { get; set; }
     public DateTime? DueDate { get; set; }
-    public DateTime CreateTime { get; set; }
+    public DateTime CreateDate { get; set; }
     public Dictionary<string, List<string>> Tags { get; set; }
 
     public static DateTime DefaultStartDate { get; } = DateTime.UtcNow;
@@ -38,9 +25,9 @@ public class TaskItem
     public TaskItem(string content, DateTime? startTime = null, DateTime? dueDate = null, Dictionary<string, List<string>>? tags = default)
     {
         Content = content;
-        StartTime = startTime;
+        StartDate = startTime;
         DueDate = dueDate;
-        CreateTime = DateTime.UtcNow;
+        CreateDate = DateTime.UtcNow;
         Tags = tags ?? [];
     }
 
@@ -58,25 +45,25 @@ public class TaskItem
     }
     StringBuilder TimeToString(StringBuilder item)
     {
-        if (StartTime != null)
+        if (StartDate != null)
         {
-            item.Append($"Start: {StartTime:MM/dd/yyyy HH:mm}");
+            item.Append($"Start: {StartDate:MM/dd/yyyy HH:mm}");
         }
 
         if (DueDate != null)
         {
-            if (StartTime != null)
+            if (StartDate != null)
             {
                 item.Append(", ");
             }
             item.Append($"Due: {DueDate:MM/dd/yyyy HH:mm}");
         }
 
-        if (StartTime != null || DueDate != null)
+        if (StartDate != null || DueDate != null)
         {
             item.Append(", ");
         }
-        item.Append($"Created: {CreateTime:MM/dd/yyyy HH:mm}");
+        item.Append($"Created: {CreateDate:MM/dd/yyyy HH:mm}");
 
         return item;
     }

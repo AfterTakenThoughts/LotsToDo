@@ -6,10 +6,10 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LotsToDo.Views.InitialScreen.AddTaskElement.AddTaskElement"
         x:DataType="vm:MainViewModel">
-
+    
     <TextBox Text="{Binding TextBoxItemEntry}" Watermark="Add a new task..." Margin="10" Height="30" Width="400">
         <TextBox.InnerRightContent>
-            <Button Command="{Binding AddItemCommand}">
+            <Button Theme="{DynamicResource BaseButton}" Command="{Binding AddItemCommand}">
                 Add Task
             </Button>
         </TextBox.InnerRightContent>
@@ -19,24 +19,23 @@
 
         <TextBox.Styles>
             <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
-                <Setter Property="Foreground" Value="rgba(127, 127, 255, 1)" />
+                <Setter Property="Foreground" Value="{DynamicResource BaseColor}" />
             </Style>
             <Style Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark">
-                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Foreground" Value="{DynamicResource PointerOverColor}" />
             </Style>
 
             <Style Selector="TextBox /template/ Border">
-                <Setter Property="Background" Value="rgb(25, 25, 50)" />
+                <Setter Property="Background" Value="{DynamicResource ForegroundColor}" />
+                <Setter Property="CornerRadius" Value="10" />
             </Style>
             <Style Selector="TextBox:pointerover /template/ Border">
-                <Setter Property="Background" Value="rgb(25, 25, 50)" />
+                <Setter Property="Background" Value="{DynamicResource ForegroundColor}" />
+                <Setter Property="CornerRadius" Value="10" />
             </Style>
             <Style Selector="TextBox:focus /template/ Border">
-                <Setter Property="Background" Value="rgb(25, 25, 50)" />
-            </Style>
-
-            <Style Selector="Button">
-                <Setter Property="Background" Value="rgba(127, 127, 255, 1)" />
+                <Setter Property="Background" Value="{DynamicResource ForegroundColor}" />
+                <Setter Property="CornerRadius" Value="10" />
             </Style>
         </TextBox.Styles>
     </TextBox>

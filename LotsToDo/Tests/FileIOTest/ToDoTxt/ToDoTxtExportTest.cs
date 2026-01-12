@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 using LotsToDo.Backend;
-using LotsToDo.Backend.FileIO;
+using LotsToDo.Backend.FileIO.ToDoFileFormats;
+using LotsToDo.Backend.ToDoData;
 
 namespace LotsToDo.Tests.FileIOTest.ToDoTxt;
 
@@ -24,7 +25,7 @@ public class ToDoTxtExportTest
     [Test]
     public void FileNameTest()
     {
-        FileToDoTxt fileExport1 = new();
+        ParseToDoTxt fileExport1 = new();
         fileExport1.Export(TestPath, FileName, Folder);
 
         string file = Path.GetFileName(Directory.GetFiles(TestPath)[0]);

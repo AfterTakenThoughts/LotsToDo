@@ -9,36 +9,56 @@ namespace LotsToDo.ViewModels;
 /// </summary>
 public partial class TaskItemViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private bool _IsCompleted;
+    public TaskItem Item { get; set; }
+    public bool IsCompleted
+    {
+        get => Item.IsCompleted;
+        set => SetProperty(Item.IsCompleted, value, Item, (item, isCompleted) => Item.IsCompleted = isCompleted);
+    }
 
-    [ObservableProperty]
-    private string _Content;
+    public string Content
+    {
+        get => Item.Content;
+        set => SetProperty(Item.Content, value, Item, (item, content) => Item.Content.Equals(content));
+    }
 
-    [ObservableProperty]
-    private DateTime? _StartTime;
-
-    [ObservableProperty]
-    private DateTime? _DueDate;
-
-    [ObservableProperty]
-    private DateTime _CreateTime;
+    public string? StartDate => GetDateTimeString(DateTime.Now, Item.StartDate, 10);
+    public string? DueDate => GetDateTimeString(DateTime.Now, Item.DueDate, 10);
+    public string? CreateDate => GetDateTimeString(DateTime.Now, Item.CreateDate, 10);
 
     public TaskItemViewModel()
     {
         Content = "";
+        Item = new();
     }
 
     public TaskItemViewModel(TaskItem item)
     {
-        IsCompleted = item.IsCompleted;
-        Content = item.Content;
-        StartTime = item.StartTime;
-        DueDate = item.DueDate;
-        CreateTime = item.CreateTime;
+        Item = item;
     }
-    public TaskItem GetItem()
+
+    public static string GetDateTimeString(DateTime currentTime, DateTime? targetTime, int maxDaysBefore)
     {
-        return new TaskItem(Content, StartTime, DueDate);
+        if (targetTime == null)
+        {
+            return "";
+        }
+        DateTime newTargetTime = targetTime.GetValueOrDefault();
+        if (newTargetTime.Date == currentTime.Date)
+        {
+            return $"by {newTargetTime.TimeOfDay - currentTime.TimeOfDay}";
+        }
+        else
+        {
+            int daysBefore = (newTargetTime - currentTime).Days;
+            if (maxDaysBefore > daysBefore && daysBefore > 0)
+            {
+                return $"in {daysBefore} day(s)";
+            }
+            else
+            {
+                return $"by {newTargetTime.ToShortDateString()}";
+            }
+        }
     }
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LotsToDo.Backend;
-using LotsToDo.Backend.FileIO;
+using LotsToDo.Backend.FileIO.ToDoFileFormats;
+using LotsToDo.Backend.ToDoData;
 using NUnit.Framework.Legacy;
 
 namespace LotsToDo.Tests.FileIOTest.Archive;
@@ -63,7 +64,7 @@ public class ArchiveImportTest
     [Test]
     public void ParseSimpleTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SimpleFolder);
 
         if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
@@ -78,7 +79,7 @@ public class ArchiveImportTest
     [Test]
     public void ParseTimeTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SimpleFolderWithTime);
 
         if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
@@ -93,7 +94,7 @@ public class ArchiveImportTest
     [Test]
     public void ParseTagsTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SimpleFolderWithTags);
 
         if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
@@ -108,7 +109,7 @@ public class ArchiveImportTest
     [Test]
     public void ParseComplexTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, ComplexFolder);
 
         if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
@@ -123,7 +124,7 @@ public class ArchiveImportTest
     [Test]
     public void ParseAllTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SimpleFolder, SimpleFolderWithTime, SimpleFolderWithTags, ComplexFolder);
 
         if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))

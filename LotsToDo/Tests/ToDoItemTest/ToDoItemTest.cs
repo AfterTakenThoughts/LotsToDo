@@ -31,7 +31,7 @@ class ToDoItemTest
     {
         string testString = $"""
             Test1
-                Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {Item.CreateTime:MM/dd/yyyy HH:mm}
+                Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {Item.CreateDate:MM/dd/yyyy HH:mm}
                 Tags: foo: (bar, baz), foo2: (bar2, baz)
             """;
         Assert.That(Item.ToString(), Is.EqualTo(testString.ReplaceLineEndings()));
@@ -42,7 +42,7 @@ class ToDoItemTest
         TaskItem testItem = new("Test1", new DateTime(2000, 1, 1, 1, 1, 1), new DateTime(2000, 1, 1, 1, 1, 1));
         string testString = $"""
             Test1
-                Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}
+                Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {testItem.CreateDate:MM/dd/yyyy HH:mm}
             """;
         Assert.That(testItem.ToString(), Is.EqualTo(testString.ReplaceLineEndings()));
     }
@@ -52,7 +52,7 @@ class ToDoItemTest
         TaskItem testItem = new("Test1");
         string testString = $"""
             Test1
-                Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}
+                Created: {testItem.CreateDate:MM/dd/yyyy HH:mm}
             """;
         Assert.That(testItem.ToString(), Is.EqualTo(testString.ReplaceLineEndings()));
     }
@@ -62,14 +62,14 @@ class ToDoItemTest
         TaskItem testItem = new("Test1", new DateTime(2000, 1, 1, 1, 1, 1));
         string testString = $"""
             Test1
-                Start: 01/01/2000 01:01, Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}
+                Start: 01/01/2000 01:01, Created: {testItem.CreateDate:MM/dd/yyyy HH:mm}
             """;
         Assert.That(testItem.ToString(), Is.EqualTo(testString.ReplaceLineEndings()));
 
         testItem = new("Test2", null, new DateTime(2000, 1, 1, 1, 1, 1));
         testString = $"""
             Test2
-                Due: 01/01/2000 01:01, Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}
+                Due: 01/01/2000 01:01, Created: {testItem.CreateDate:MM/dd/yyyy HH:mm}
             """;
         Assert.That(testItem.ToString(), Is.EqualTo(testString.ReplaceLineEndings()));
 
@@ -80,7 +80,7 @@ class ToDoItemTest
             });
         testString = $"""
             Test3
-                Start: 01/01/2000 01:01, Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}
+                Start: 01/01/2000 01:01, Created: {testItem.CreateDate:MM/dd/yyyy HH:mm}
                 Tags: foo: (bar, baz), foo2: (bar2, baz)
             """;
         Assert.That(testItem.ToString(), Is.EqualTo(testString.ReplaceLineEndings()));
@@ -92,7 +92,7 @@ class ToDoItemTest
             });
         testString = $"""
             Test4
-                Due: 01/01/2000 01:01, Created: {testItem.CreateTime:MM/dd/yyyy HH:mm}
+                Due: 01/01/2000 01:01, Created: {testItem.CreateDate:MM/dd/yyyy HH:mm}
                 Tags: foo: (bar, baz), foo2: (bar2, baz)
             """;
         Assert.That(testItem.ToString(), Is.EqualTo(testString.ReplaceLineEndings()));

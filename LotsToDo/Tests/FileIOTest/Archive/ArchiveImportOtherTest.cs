@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using LotsToDo.Backend;
-using LotsToDo.Backend.FileIO;
-using NUnit.Framework.Legacy;
+using LotsToDo.Backend.FileIO.ToDoFileFormats;
+using LotsToDo.Backend.ToDoData;
 
 namespace LotsToDo.Tests.FileIOTest.Archive;
 
@@ -30,7 +28,7 @@ public class ArchiveImportOtherTest
     [Test]
     public void ParseEmptyFolderTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, EmptyFolder);
 
         if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))
@@ -45,7 +43,7 @@ public class ArchiveImportOtherTest
     [Test]
     public void ParseSameNameTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, SameNameFolder);
 
         if (fileExport.Import(TestPath, FileName, out List<TaskFolder> testFolder))

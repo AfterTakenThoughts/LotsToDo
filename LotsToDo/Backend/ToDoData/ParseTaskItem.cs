@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LotsToDo.Backend;
 
+namespace LotsToDo.Backend.ToDoData;
 public static class ParseTaskItem
 {
     public static TaskItem ParseProperties(TaskItem item, string content)
@@ -64,7 +64,7 @@ public static class ParseTaskItem
                         }
                         break;
                     default:
-                        if (insideParenthesis == false && Char.IsWhiteSpace(contentWithoutTag[i]) == false && contentWithoutTag[i] != ':' && contentWithoutTag[i] != ',')
+                        if (insideParenthesis == false && char.IsWhiteSpace(contentWithoutTag[i]) == false && contentWithoutTag[i] != ':' && contentWithoutTag[i] != ',')
                         {
                             word.Append(contentWithoutTag[i]);
                         }
@@ -129,13 +129,13 @@ public static class ParseTaskItem
                 switch (selectTime)
                 {
                     case SelectTime.StartTime:
-                        item.StartTime = time;
+                        item.StartDate = time;
                         break;
                     case SelectTime.DueDate:
                         item.DueDate = time;
                         break;
                     case SelectTime.CreateTime:
-                        item.CreateTime = time;
+                        item.CreateDate = time;
                         break;
                 }
             }

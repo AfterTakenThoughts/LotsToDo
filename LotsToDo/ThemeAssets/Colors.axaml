@@ -1,0 +1,8 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="BaseColor">rgba(127, 127, 255, 1)</Color>
+    <Color x:Key="PointerOverColor">rgba(70, 70, 140, 1)</Color>
+    <Color x:Key="FocusColor">rgba(50, 50, 100, 1)</Color>
+    <Color x:Key="BackgroundColor">rgb(10, 10, 20)</Color>
+    <Color x:Key="ForegroundColor">rgb(25, 25, 50)</Color>
+</ResourceDictionary>

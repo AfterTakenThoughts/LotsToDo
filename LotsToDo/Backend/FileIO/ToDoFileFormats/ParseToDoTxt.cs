@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using LotsToDo.Backend.ToDoData;
 
-namespace LotsToDo.Backend.FileIO;
+namespace LotsToDo.Backend.FileIO.ToDoFileFormats;
 
-public class FileToDoTxt : IToDoFileIO
+public class ParseToDoTxt : IParseToDo
 {
     
     public void Export(string relativePath, string fileName, params TaskFolder[] folders)

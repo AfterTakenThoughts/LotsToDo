@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using LotsToDo.Backend.FileIO;
-using LotsToDo.Backend.StringHandlingExtensions;
+using LotsToDo.Backend.FileIO.ToDoFileFormats;
 
-namespace LotsToDo.Backend;
+namespace LotsToDo.Backend.ToDoData;
 
 
 public class TaskFolder
@@ -26,6 +23,6 @@ public class TaskFolder
     public List<TaskFolder> Folder { get; set; }
     public override string ToString()
     {
-        return FileArchive.GetString(this, 0);
+        return ParseArchive.GetString(this, 0);
     }
 }

@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 using LotsToDo.Backend;
-using LotsToDo.Backend.FileIO;
+using LotsToDo.Backend.FileIO.ToDoFileFormats;
+using LotsToDo.Backend.ToDoData;
 
 namespace LotsToDo.Tests.FileIOTest.Archive;
 
@@ -44,7 +45,7 @@ public class ArchiveExportTest
     [Test]
     public void FileNameTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, Folder1, Folder2);
 
         string file = Path.GetFileName(Directory.GetFiles(TestPath)[0]);
@@ -53,26 +54,26 @@ public class ArchiveExportTest
     [Test]
     public void FileContentTest()
     {
-        FileArchive fileExport = new();
+        ParseArchive fileExport = new();
         fileExport.Export(TestPath, FileName, Folder1, Folder2);
         string content = File.ReadAllText(Directory.GetFiles(TestPath)[0]);
 
         string testItem = $"""
             Folder: Test
                 Test1
-                    Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {Folder1.Item[0].CreateTime:MM/dd/yyyy HH:mm}
+                    Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {Folder1.Item[0].CreateDate:MM/dd/yyyy HH:mm}
                 Test2
-                    Start: 10/14/2025 10:01, Due: 10/15/2025 12:10, Created: {Folder1.Item[1].CreateTime:MM/dd/yyyy HH:mm}
+                    Start: 10/14/2025 10:01, Due: 10/15/2025 12:10, Created: {Folder1.Item[1].CreateDate:MM/dd/yyyy HH:mm}
                     Tags: foo: (bar, baz), foo2: (bar2, baz)
                 Folder: TestInner
                     Test1
-                        Created: {Folder1.Folder[0].Item[0].CreateTime:MM/dd/yyyy HH:mm}
+                        Created: {Folder1.Folder[0].Item[0].CreateDate:MM/dd/yyyy HH:mm}
                 Folder: TestInner2
                     Test2
-                        Created: {Folder1.Folder[0].Item[0].CreateTime:MM/dd/yyyy HH:mm}
+                        Created: {Folder1.Folder[0].Item[0].CreateDate:MM/dd/yyyy HH:mm}
             Folder: TestOther
                 TestOtherContent
-                    Created: {Folder1.Folder[0].Item[0].CreateTime:MM/dd/yyyy HH:mm}
+                    Created: {Folder1.Folder[0].Item[0].CreateDate:MM/dd/yyyy HH:mm}
             """;
         Assert.That(content, Is.EqualTo(testItem));
     }

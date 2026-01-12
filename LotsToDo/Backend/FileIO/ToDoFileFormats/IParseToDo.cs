@@ -1,9 +1,16 @@
 using System.Collections.Generic;
+using LotsToDo.Backend.ToDoData;
 
-namespace LotsToDo.Backend.FileIO;
+namespace LotsToDo.Backend.FileIO.ToDoFileFormats;
 
-public interface IToDoFileIO
+public interface IParseToDo
 {
+    /// <summary>
+    /// Exports the app's to do contents into a file format.
+    /// </summary>
+    /// <param name="relativePath"></param>
+    /// <param name="fileName"></param>
+    /// <param name="folder"></param>
     public void Export(string relativePath, string fileName, params TaskFolder[] folders);
 
     /// <summary>

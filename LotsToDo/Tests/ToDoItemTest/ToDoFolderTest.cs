@@ -1,5 +1,6 @@
 ﻿using System;
 using LotsToDo.Backend;
+using LotsToDo.Backend.ToDoData;
 
 namespace LotsToDo.Tests.ToDoItemTest;
 
@@ -53,16 +54,16 @@ class ToDoFolderTest
         string testItem = $"""
             Folder: Test
                 Test1
-                    Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {Folder.Item[0].CreateTime:MM/dd/yyyy HH:mm}
+                    Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {Folder.Item[0].CreateDate:MM/dd/yyyy HH:mm}
                 Test2
-                    Start: 10/14/2025 10:01, Due: 10/15/2025 12:10, Created: {Folder.Item[1].CreateTime:MM/dd/yyyy HH:mm}
+                    Start: 10/14/2025 10:01, Due: 10/15/2025 12:10, Created: {Folder.Item[1].CreateDate:MM/dd/yyyy HH:mm}
                     Tags: foo: (bar, baz), foo2: (bar2, baz)
                 Folder: TestInner
                     Test1
-                        Created: {Folder.Folder[0].Item[0].CreateTime:MM/dd/yyyy HH:mm}
+                        Created: {Folder.Folder[0].Item[0].CreateDate:MM/dd/yyyy HH:mm}
                 Folder: TestInner2
                     Test2
-                        Created: {Folder.Folder[0].Item[0].CreateTime:MM/dd/yyyy HH:mm}
+                        Created: {Folder.Folder[0].Item[0].CreateDate:MM/dd/yyyy HH:mm}
             """;
         TestContext.Out.WriteLine(Folder.ToString());
         Assert.That(Folder.ToString(), Is.EqualTo(testItem.ReplaceLineEndings()));
