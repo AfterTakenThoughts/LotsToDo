@@ -77,6 +77,33 @@ public class ArchiveExportTest
             """;
         Assert.That(content, Is.EqualTo(testItem));
     }
+    [Test]
+    public void FileOverwriteTest()
+    {
+        ParseArchive fileExport = new();
+        fileExport.Export(TestPath, FileName, Folder2);
+        fileExport.Export(TestPath, FileName, Folder1, Folder2);
+        string content = File.ReadAllText(Directory.GetFiles(TestPath)[0]);
+
+        string testItem = $"""
+            Folder: Test
+                Test1
+                    Start: 01/01/2000 01:01, Due: 01/01/2000 01:01, Created: {Folder1.Item[0].CreateDate:MM/dd/yyyy HH:mm}
+                Test2
+                    Start: 10/14/2025 10:01, Due: 10/15/2025 12:10, Created: {Folder1.Item[1].CreateDate:MM/dd/yyyy HH:mm}
+                    Tags: foo: (bar, baz), foo2: (bar2, baz)
+                Folder: TestInner
+                    Test1
+                        Created: {Folder1.Folder[0].Item[0].CreateDate:MM/dd/yyyy HH:mm}
+                Folder: TestInner2
+                    Test2
+                        Created: {Folder1.Folder[0].Item[0].CreateDate:MM/dd/yyyy HH:mm}
+            Folder: TestOther
+                TestOtherContent
+                    Created: {Folder1.Folder[0].Item[0].CreateDate:MM/dd/yyyy HH:mm}
+            """;
+        Assert.That(content, Is.EqualTo(testItem));
+    }
     [TearDown]
     public void TearDown()
     {

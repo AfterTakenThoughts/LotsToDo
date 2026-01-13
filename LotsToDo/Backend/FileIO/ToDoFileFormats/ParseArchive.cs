@@ -41,13 +41,15 @@ public class ParseArchive : IParseToDo
         public int IndentLength { get; set; }
     }
 
-    public void Export(string relativePath, string fileName, params TaskFolder[] folders)
+    public bool Export(string relativePath, string fileName, params TaskFolder[] folders)
     {
         string fullPath = relativePath + "/" + fileName + ".txt";
         string content = string.Join(Environment.NewLine, folders.Select(x => x.ToString()));
 
         Directory.CreateDirectory(relativePath);
-        File.AppendAllText(fullPath, content);
+        File.WriteAllText(fullPath, content);
+
+        return File.Exists(fullPath);
     }
 
     public bool Import(string relativePath, string fileName, out List<TaskFolder> folders)
