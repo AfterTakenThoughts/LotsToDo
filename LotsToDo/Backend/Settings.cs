@@ -1,6 +1,6 @@
 namespace LotsToDo.Backend;
 
-public class Settings(string toDoDataLocation)
+public static class Settings
 {
-    public string ToDoDataLocation { get; set; } = toDoDataLocation;
+    public static string? ToDoDataLocation { get; set; }
 }

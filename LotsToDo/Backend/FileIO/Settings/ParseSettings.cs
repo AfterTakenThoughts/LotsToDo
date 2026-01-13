@@ -1,9 +1,9 @@
-
-using LotsToDo.Backend;
-public class ParseSettings()
+namespace LotsToDo.Backend.FileIO.Settings;
+public static class ParseSettings
 {
-    public Settings Import(string relativePath, string fileName)
+    //TODO: import from a file rather than on a default hardcoded value.
+    public static void Import(string relativePath, string fileName)
     {
-        return new Settings("content");
+        Backend.Settings.ToDoDataLocation = "Data/ToDoList.txt";
     }
 }

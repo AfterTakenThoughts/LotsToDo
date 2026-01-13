@@ -5,7 +5,7 @@
         xmlns:vm="using:LotsToDo.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LotsToDo.Views.InitialScreen.TaskListing.PropertyElement"
-        x:DataType="vm:MainViewModel">
+        x:DataType="vm:ToDoListViewModel">
     <Border Margin="10" CornerRadius="10" Background="rgb(25, 25, 50)" Height="80" Width="400">
         <StackPanel>
             <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"

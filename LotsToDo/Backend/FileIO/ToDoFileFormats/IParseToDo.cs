@@ -11,7 +11,9 @@ public interface IParseToDo
     /// <param name="relativePath"></param>
     /// <param name="fileName"></param>
     /// <param name="folder"></param>
-    public void Export(string relativePath, string fileName, params TaskFolder[] folders);
+    /// <returns>A boolean value that determines if the file exists and is overwritten.</returns>
+
+    public bool Export(string relativePath, string fileName, params TaskFolder[] folders);
 
     /// <summary>
     /// Imports the contents of the to do file and converts those contents into <see cref="TaskFolder"/>

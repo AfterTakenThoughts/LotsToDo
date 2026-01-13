@@ -5,13 +5,13 @@
         xmlns:vm="using:LotsToDo.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LotsToDo.Views.MainView"
-        x:DataType="vm:MainViewModel"
+        x:DataType="vm:ToDoListViewModel"
         Background="rgb(10, 10, 20)"
         xmlns:controls="clr-namespace:LotsToDo.Views.InitialScreen">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainViewModel />
+        <vm:ToDoListViewModel />
     </Design.DataContext>
 
     <controls:RecommendedTasks/>

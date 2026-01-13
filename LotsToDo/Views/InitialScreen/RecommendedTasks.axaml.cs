@@ -10,8 +10,4 @@ public partial class RecommendedTasks : UserControl
     {
         InitializeComponent();
     }
-    private void Button_Click(object? sender, RoutedEventArgs e)
-    {
-        Debug.WriteLine("Click!");
-    }
 }

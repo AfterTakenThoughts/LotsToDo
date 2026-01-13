@@ -5,7 +5,7 @@
         xmlns:vm="using:LotsToDo.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LotsToDo.Views.InitialScreen.AddTaskElement.AddTaskElement"
-        x:DataType="vm:MainViewModel">
+        x:DataType="vm:ToDoListViewModel">
     
     <TextBox Text="{Binding TextBoxItemEntry}" Watermark="Add a new task..." Margin="10" Height="30" Width="400">
         <TextBox.InnerRightContent>
