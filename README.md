@@ -10,7 +10,9 @@ Some planned features include tags, To Do file parsers (like Todo.txt), folder p
 
 ## Installation
 
-Binary releases will come later, when more features on the app are implemented. For now, you can use the source code to run the app.
+Binary releases will come later, when more features on the app are implemented. For now, you can use the source code to run LotsToDo.
+
+LotsToDo is supported on Windows 8.1+, Linux and MacOS probably unsupported as of now.
 
 ## Contributing
 
