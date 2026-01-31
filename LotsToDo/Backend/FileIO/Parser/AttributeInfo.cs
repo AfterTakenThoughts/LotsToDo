@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace LotsToDo.Backend.FileIO.Parser;
 
+//TODO: add string comparison options.
 public readonly struct AttributeInfo(string attributeName, List<string> bypassKeywordList, List<string> attributeFormat, ParseDirection textDirection)
 {
     public string AttributeName { get; } = attributeName;
