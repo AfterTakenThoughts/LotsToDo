@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using Avalonia;
 
 namespace LotsToDo.Backend.StringHandlingExtensions;
-public static class CharComparison
+public static class CharComparisons
 {
     public static int CharacterCountAtStart(this string content, List<char> chars, int startStringIndex = 0)
     {
@@ -43,37 +41,36 @@ public static class CharComparison
         }
         return count;
     }
-    public static string TrimStart(this string content, out int trimmedLength)
-    {
-        string trimmedContent = content.TrimStart();
-        trimmedLength = Math.Abs(content.Length - trimmedContent.Length);
-        return trimmedContent;
-    }
-    public static string TrimEnd(this string content, out int trimmedLength)
-    {
-        string trimmedContent = content.TrimEnd();
-        trimmedLength = Math.Abs(content.Length - trimmedContent.Length);
-        return trimmedContent;
-    }
-    public static string Trim(this string content, out int trimmedStartLength, out int trimmedEndLength)
-    {
-        string trimmedContent = content.TrimStart(out trimmedStartLength);
-        trimmedContent = trimmedContent.TrimEnd(out trimmedEndLength);
-        return trimmedContent;
-    }
     public static bool StartsWith(this string content, string value, int startStringIndex = 0)
     {
-        for (int i = 0; i < content.Length - startStringIndex; i++)
+        //Escape condition when the length diff between startStringIndex and content end is longer than value.
+        if (content.Length - startStringIndex < value.Length)
         {
-            if (i == value.Length)
-            {
-                return true;
-            }
-            else if (value[i] != content[i + startStringIndex])
+            return false;
+        }
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (value[i] != content[i + startStringIndex])
             {
                 return false;
             }
         }
-        return false;
+        return true;
+    }
+    public static bool EndsWith(this string content, string value, int startStringIndex = 0)
+    {
+        //Escape condition when the length diff between startStringIndex and content start is longer than value.
+        if (startStringIndex < value.Length)
+        {
+            return false;
+        }
+        for (int i = value.Length - 1; i >= 0; i--)
+        {
+            if (value[i] != content[i + startStringIndex])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -1,6 +1,5 @@
-using System.Collections.Generic;
+using LotsToDo.Backend.FileIO.Parser.AttributeInfo;
 using LotsToDo.Backend.FileIO.Parser.ParserMethods;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace LotsToDo.Tests.ParseTest;
 
@@ -11,14 +10,14 @@ public class ParseStringTest
     public void Setup()
     {
         Parser = new("Foo", [
-            new("Test1:", [" ", ":"], [], Backend.FileIO.Parser.ParseDirection.ParseRight),
-            new("Test2", [" ", ":", "by", "as", "for"], [], Backend.FileIO.Parser.ParseDirection.ParseRight),
-            new("Test3:", [" ", ":"], [], Backend.FileIO.Parser.ParseDirection.ParseLeft)]);
+            new AttributeByWord("Test1:", new([" ", ":"]), 1, Backend.FileIO.Parser.ParseDirection.ParseRight),
+            new AttributeByWord("Test2", new([" ", ":", "by", "as", "for"]), 1, Backend.FileIO.Parser.ParseDirection.ParseRight),
+            new AttributeByWord("Test3:", new([" ", ":"]), 1, Backend.FileIO.Parser.ParseDirection.ParseLeft)]);
     }
     [Test]
     public void SimpleAttributeTest()
     {
-        ParseSingleAttribute testParser = new("Bar", [new("Test1:", [" ", ":"], [], Backend.FileIO.Parser.ParseDirection.ParseRight)]);
+        ParseSingleAttribute testParser = new("Bar", [new AttributeByWord("Test1:", new([" ", ":"]), 1, Backend.FileIO.Parser.ParseDirection.ParseRight)]);
         Assert.That(testParser.ParseAttributes("Test1: Thing", out _)[0], Is.EqualTo("Thing"));
     }
     [Test]

@@ -2,18 +2,19 @@ using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LotsToDo.Backend;
+using LotsToDo.Backend.FileIO.Parser.AttributeInfo;
 using LotsToDo.Backend.FileIO.Parser.ParserMethods;
 using LotsToDo.ViewModels;
 
 namespace LotsToDo.ViewModels;
 /// <summary>
-/// This is a ViewModel which represents a <see cref="Models.ToDoItem"/>
+/// A ViewModel that represents <see cref="TaskItem"/>
 /// </summary>
 public partial class TaskItemViewModel : ViewModelBase
 {
     public TaskItem Item { get; set; }
-    public readonly ParseSingleAttribute ParseDueDate = new("Due", [new("Due", [" ", ":", "by", "at"], [], Backend.FileIO.Parser.ParseDirection.ParseRight)]);
-    public readonly ParseSingleAttribute ParseStartDate = new("Start", [new("Start", [" ", ":", "by", "at"], [], Backend.FileIO.Parser.ParseDirection.ParseRight)]);
+    public readonly ParseSingleAttribute ParseDueDate = new("Due", [new AttributeByWord("Due", new([" ", ":", "by", "at"]), 1, Backend.FileIO.Parser.ParseDirection.ParseRight)]);
+    public readonly ParseSingleAttribute ParseStartDate = new("Start", [new AttributeByWord("Start", new([" ", ":", "by", "at"]), 1, Backend.FileIO.Parser.ParseDirection.ParseRight)]);
     public bool IsCompleted
     {
         get => Item.IsCompleted;
