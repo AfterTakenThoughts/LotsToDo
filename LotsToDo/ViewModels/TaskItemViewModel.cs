@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LotsToDo.Backend;
+using LotsToDo.Backend.FileIO.Parser;
 using LotsToDo.Backend.FileIO.Parser.AttributeInfo;
 using LotsToDo.Backend.FileIO.Parser.ParserMethods;
 using LotsToDo.ViewModels;
@@ -13,8 +14,12 @@ namespace LotsToDo.ViewModels;
 public partial class TaskItemViewModel : ViewModelBase
 {
     public TaskItem Item { get; set; }
-    public readonly ParseSingleAttribute ParseDueDate = new("Due", [new AttributeByWord("Due", new([" ", ":", "by", "at"]), 1, Backend.FileIO.Parser.ParseDirection.ParseRight)]);
-    public readonly ParseSingleAttribute ParseStartDate = new("Start", [new AttributeByWord("Start", new([" ", ":", "by", "at"]), 1, Backend.FileIO.Parser.ParseDirection.ParseRight)]);
+    public readonly ParseSingleAttribute ParseDueDate = new("Due", [
+        new AttributeByWord(new MatchInfo("Due", StringComparison.InvariantCultureIgnoreCase), new([" ", ":", "by", "at"]), 1, ParseDirection.ParseRight)
+    ]);
+    public readonly ParseSingleAttribute ParseStartDate = new("Start", [
+        new AttributeByWord(new MatchInfo("Start", StringComparison.InvariantCultureIgnoreCase), new([" ", ":", "by", "at"]), 1, ParseDirection.ParseRight)
+    ]);
     public bool IsCompleted
     {
         get => Item.IsCompleted;

@@ -7,12 +7,28 @@ using LotsToDo.Backend.StringHandlingExtensions;
 namespace LotsToDo.Backend.FileIO.Parser.AttributeInfo;
 
 //TODO: add string comparison options.
-public readonly struct AttributeByRegex(string attributeName, BypassKeyword bypassKeyword, List<string> attributeFormat, ParseDirection textDirection) : IAttributeInfo
+public readonly struct AttributeByRegex : IAttributeInfo
 {
-    public string AttributeName { get; } = attributeName;
-    public BypassKeyword BypassKeyword { get; } = bypassKeyword;
-    public List<string> AttributeFormat { get; } = attributeFormat;
-    public ParseDirection TextDirection { get; } = textDirection;
+    public MatchInfo TagIdentifierMatch { get; }
+    public BypassKeyword BypassKeyword { get; }
+    public List<string> AttributeFormat { get; }
+    public ParseDirection TextDirection { get; }
+
+    public AttributeByRegex(MatchInfo tagIdentifier, BypassKeyword bypassKeyword, List<string> attributeFormat, ParseDirection textDirection)
+    {
+        TagIdentifierMatch = tagIdentifier;
+        BypassKeyword = bypassKeyword;
+        AttributeFormat = attributeFormat;
+        TextDirection = textDirection;
+    }
+    public AttributeByRegex(string tagIdentifier, BypassKeyword bypassKeyword, List<string> attributeFormat, ParseDirection textDirection)
+    {
+        TagIdentifierMatch = new(tagIdentifier);
+        BypassKeyword = bypassKeyword;
+        AttributeFormat = attributeFormat;
+        TextDirection = textDirection;
+    }
+
     public List<string> ExtractMultiAttribute(string content, Range tagRange, out string remainingContent)
     {
         throw new NotImplementedException();

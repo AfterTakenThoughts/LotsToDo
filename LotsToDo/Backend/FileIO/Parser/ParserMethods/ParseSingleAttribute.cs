@@ -16,10 +16,10 @@ public class ParseSingleAttribute(string tagName, List<IAttributeInfo> keyWordLi
         remainingContent = content;
         foreach (IAttributeInfo info in KeyWordList)
         {
-            int tagIndex = content.IndexOf(info.AttributeName);
+            int tagIndex = content.IndexOf(info.TagIdentifierMatch.MatchString, info.TagIdentifierMatch.Comparer);
             if (tagIndex != -1)
             {
-                int tagEndIndex = tagIndex + info.AttributeName.Length;
+                int tagEndIndex = tagIndex + info.TagIdentifierMatch.MatchString.Length;
                 Range tagRange = tagIndex..tagEndIndex;
                 return [info.ExtractSingleAttribute(content, tagRange, out remainingContent)];
             }

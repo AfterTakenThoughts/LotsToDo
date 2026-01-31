@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using LotsToDo.Backend.FileIO.Parser;
 
 public interface IAttributeInfo
 {
     /// <summary>
     /// The attribute identifier to read from the string contents.
     /// </summary>
-    public string AttributeName { get; }
+    public MatchInfo TagIdentifierMatch { get; }
     /// <summary>
     /// Reads the attributes and skips any bypass words.
     /// </summary>

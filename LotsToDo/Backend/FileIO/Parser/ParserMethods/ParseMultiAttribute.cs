@@ -17,10 +17,10 @@ public class ParseMultiAttribute(string tagName, List<IAttributeInfo> keyWordLis
         List<string> attributeList = [];
         foreach (IAttributeInfo info in KeyWordList)
         {
-            int tagIndex = content.IndexOf(info.AttributeName);
+            int tagIndex = content.IndexOf(info.TagIdentifierMatch.MatchString, info.TagIdentifierMatch.Comparer);
             if (tagIndex != -1)
             {
-                int tagEndIndex = tagIndex + info.AttributeName.Length;
+                int tagEndIndex = tagIndex + info.TagIdentifierMatch.MatchString.Length;
                 Range tagRange = tagIndex..tagEndIndex;
                 attributeList.AddRange(info.ExtractMultiAttribute(content, tagRange, out remainingContent));
             }

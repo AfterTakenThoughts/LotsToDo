@@ -1,12 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using LotsToDo.Backend.StringHandlingExtensions;
 
 namespace LotsToDo.Backend.FileIO.Parser.ExtractionMethods;
 
-public class BypassKeyword(List<string> bypassKeywordList)
+public class BypassKeyword
 {
-    public List<string> BypassKeywordList { get; } = bypassKeywordList;
+    public List<MatchInfo> BypassKeywordList { get; }
+
+    public BypassKeyword(List<MatchInfo> bypassKeywordList)
+    {
+        BypassKeywordList = bypassKeywordList;
+    }
+    public BypassKeyword(List<string> bypassKeywordList)
+    {
+        BypassKeywordList = [.. bypassKeywordList.Select(x => new MatchInfo(x))];
+    }
+
     /// <summary>
     /// Skips any bypass words in <paramref name="info"/> to the relevant index.
     /// </summary>
@@ -41,11 +52,11 @@ public class BypassKeyword(List<string> bypassKeywordList)
     int BypassKeywordRight(string content, int startStringIndex, out string bypassKeyWord)
     {
         bypassKeyWord = "";
-        foreach (string keyWord in BypassKeywordList)
+        foreach (MatchInfo keyWord in BypassKeywordList)
         {
-            if (CharComparisons.StartsWith(content, keyWord, startStringIndex))
+            if (CharComparisons.StartsWith(content, keyWord.MatchString, startStringIndex, StringComparer.FromComparison(keyWord.Comparer)))
             {
-                bypassKeyWord = keyWord;
+                bypassKeyWord = keyWord.MatchString;
                 return startStringIndex + bypassKeyWord.Length;
             }
         }
@@ -54,11 +65,11 @@ public class BypassKeyword(List<string> bypassKeywordList)
     int BypassKeywordLeft(string content, int startStringIndex, out string bypassKeyWord)
     {
         bypassKeyWord = "";
-        foreach (string keyWord in BypassKeywordList)
+        foreach (MatchInfo keyWord in BypassKeywordList)
         {
-            if (CharComparisons.EndsWith(content, keyWord, startStringIndex))
+            if (CharComparisons.EndsWith(content, keyWord.MatchString, startStringIndex, StringComparer.FromComparison(keyWord.Comparer)))
             {
-                bypassKeyWord = keyWord;
+                bypassKeyWord = keyWord.MatchString;
                 return startStringIndex - bypassKeyWord.Length;
             }
         }
