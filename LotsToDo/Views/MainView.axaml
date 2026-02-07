@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LotsToDo.Views.MainView"
         x:DataType="vm:ToDoListViewModel"
-        Background="rgb(10, 10, 20)"
+        Background="{DynamicResource BackgroundColor}"
         xmlns:controls="clr-namespace:LotsToDo.Views.InitialScreen">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,

@@ -1,0 +1,55 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="BaseTextBox" TargetType="TextBox">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="border"
+                    Background="{DynamicResource DarkBaseColor}"
+                    CornerRadius="10">
+                    <DockPanel Margin="{TemplateBinding Padding}">
+                        <DataValidationErrors>
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <ContentPresenter Grid.Column="0"
+                                    Grid.ColumnSpan="1"
+                                    Content="{TemplateBinding InnerLeftContent}" />
+                                <Panel>
+                                    <TextBlock Name="placeholder"
+                                        TextWrapping="Wrap">
+                                        <TextBlock.IsVisible>
+                                            <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                                <Binding ElementName="PART_TextPresenter" Path="PreeditText" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Text" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
+                                            </MultiBinding>
+                                        </TextBlock.IsVisible>
+                                    </TextBlock>
+                                    <TextPresenter Name="PART_TextPresenter"
+                                        CaretBlinkInterval="1"
+                                        CaretBrush="{DynamicResource ContentColor}"
+                                        Text="{TemplateBinding Text, Mode=TwoWay}"
+                                        TextWrapping="Wrap"
+                                        VerticalAlignment="Center"
+                                        Margin="10, 0"/>
+                                </Panel>
+                                <ContentPresenter Grid.Column="2"
+                                    Grid.ColumnSpan="1"
+                                    Content="{TemplateBinding InnerRightContent}" />
+                            </Grid>
+                        </DataValidationErrors>
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource DarkHoverColor}"/>
+        </Style>
+        <Style Selector="^:focus /template/ Border#border">
+            <Setter Property="BorderBrush" Value="{DynamicResource DarkFocusColor}" />
+        </Style>
+        <Style Selector="^ /template/ DockPanel">
+            <Setter Property="Cursor" Value="IBeam"/>
+        </Style>
+        <Style Selector="^ /template/ TextBlock#floatingPlaceholder">
+            <Setter Property="Cursor" Value="IBeam"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>
