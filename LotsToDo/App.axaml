@@ -18,34 +18,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <MergeResourceInclude Source="/ThemeAssets/Colors.axaml" />
                 <MergeResourceInclude Source="/ThemeAssets/Textbox.axaml" />
+                <MergeResourceInclude Source="/ThemeAssets/BaseButton.axaml" />
+                <MergeResourceInclude Source="/ThemeAssets/DeleteButton.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
-        <ControlTheme x:Key="BaseButton" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource LightBaseColor}"/>
-            <Setter Property="Padding" Value="7"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="{DynamicResource LightHoverColor}"/>
-            </Style>
-
-            <Style Selector="^:focus">
-                <Setter Property="Background" Value="{DynamicResource LightFocusColor}"/>
-            </Style>
-        </ControlTheme>
-        <ControlTheme x:Key="DeleteButton" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource DeleteColor}"/>
-            <Setter Property="Padding" Value="7"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="{DynamicResource DeleteHoverColor}"/>
-            </Style>
-
-            <Style Selector="^:focus">
-                <Setter Property="Background" Value="{DynamicResource DeleteFocusColor}"/>
-            </Style>
-        </ControlTheme>
     </Application.Resources>
 </Application>

@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-<ControlTheme x:Key="BaseButton" TargetType="Button">
+	<ControlTheme x:Key="BaseButton" TargetType="Button">
 		<Setter Property="Background" Value="{DynamicResource LightBaseColor}"/>
 		<Setter Property="Padding" Value="7"/>
 		<Setter Property="CornerRadius" Value="10"/>
