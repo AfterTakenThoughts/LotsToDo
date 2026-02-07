@@ -51,9 +51,9 @@ public partial class TaskItemViewModel : ViewModelBase
         }
 
         List<string> StartDateString = ParseStartDate.ParseAttributes(remainingContent, out remainingContent);
-        if (StartDateString.Count != 0 && DateTime.TryParse(DueDateString[0], out dateTime))
+        if (StartDateString.Count != 0 && DateTime.TryParse(StartDateString[0], out dateTime))
         {
-            Item.DueDate = dateTime;
+            Item.StartDate = dateTime;
         }
 
         Item.Content = remainingContent;
