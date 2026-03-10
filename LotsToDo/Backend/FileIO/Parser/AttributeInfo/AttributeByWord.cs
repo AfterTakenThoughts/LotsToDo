@@ -42,7 +42,7 @@ public readonly struct AttributeByWord : IAttributeInfo
         if (segmentWords.Length != 0)
         {
             Range attributeRange = startAttributeIndex..(startAttributeIndex + segmentWords[0].Length);
-            remainingContent = TrimString.RemoveRange(content, [tagRange, attributeRange]);
+            remainingContent = TrimString.RemoveRange(content, [tagRange.Start..(attributeRange.End.Value + CharComparisons.CharacterCountAtStart(content, [' '], attributeRange.End.Value))]);
             return segmentWords[0];
         }
         else

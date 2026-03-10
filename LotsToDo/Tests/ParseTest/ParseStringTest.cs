@@ -72,9 +72,9 @@ public class ParseStringTest
         using (Assert.EnterMultipleScope())
         {
             Parser.ParseAttributes("Lorem ipsum dolor sit amet consectetur adipiscing elit. TestBase: Thing1 vitae pellentesque sem placerat in id", out string result1);
-            Assert.That(result1, Is.EqualTo("Lorem ipsum dolor sit amet consectetur adipiscing elit.   vitae pellentesque sem placerat in id"));
+            Assert.That(result1, Is.EqualTo("Lorem ipsum dolor sit amet consectetur adipiscing elit. vitae pellentesque sem placerat in id"));
             Parser.ParseAttributes("Lorem ipsum dolor sit amet consectetur adipiscing elit. TestBypass by Thing2 vitae pellentesque sem placerat in id", out string result2);
-            Assert.That(result2, Is.EqualTo("Lorem ipsum dolor sit amet consectetur adipiscing elit.  by  vitae pellentesque sem placerat in id"));
+            Assert.That(result2, Is.EqualTo("Lorem ipsum dolor sit amet consectetur adipiscing elit. vitae pellentesque sem placerat in id"));
         }
     }
     [Test]
