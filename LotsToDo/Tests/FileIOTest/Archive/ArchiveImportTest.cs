@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using LotsToDo.Backend;
 using LotsToDo.Backend.FileIO.ToDoFileFormats;
 using LotsToDo.Backend.ToDoData;
-using NUnit.Framework.Legacy;
 
 namespace LotsToDo.Tests.FileIOTest.Archive;
 

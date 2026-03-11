@@ -11,7 +11,9 @@ using LotsToDo.Backend.ToDoData;
 
 namespace LotsToDo.ViewModels;
 
-///<summary>content with some stuff</summary>
+/// <summary>
+/// View model for listing the to do list.
+/// </summary>
 public partial class ToDoListViewModel : ViewModelBase
 {
     public ObservableCollection<TaskItemViewModel> ToDoItemList { get; set; }
@@ -41,7 +43,7 @@ public partial class ToDoListViewModel : ViewModelBase
     {
         if (string.IsNullOrWhiteSpace(TextBoxItemEntry) == false)
         {
-            ToDoItemList.Add(new TaskItemViewModel(new(TextBoxItemEntry)));
+            ToDoItemList.Add(new TaskItemViewModel(TextBoxItemEntry));
             TextBoxItemEntry = null;
             SaveContents(Settings.ToDoDataLocation);
         }

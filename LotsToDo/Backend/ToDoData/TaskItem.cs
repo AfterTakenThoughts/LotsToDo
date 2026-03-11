@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LotsToDo.Backend;
+namespace LotsToDo.Backend.ToDoData;
 
 public class TaskItem
 {
@@ -72,12 +72,24 @@ public class TaskItem
         item.Append($"{Environment.NewLine}{indent}Tags: ");
         foreach (KeyValuePair<string, List<string>> tagPair in Tags)
         {
-            item.Append($"{tagPair.Key}: ({String.Join(", ", tagPair.Value)})");
+            item.Append(GetTagString(tagPair.Key, tagPair.Value));
             if (tagPair.Key.Equals(Tags.Last().Key) == false)
             {
                 item.Append(", ");
             }
         }
         return item;
+    }
+    public string? GetTagString(string tagName)
+    {
+        if (Tags.TryGetValue(tagName, out List<string>? value))
+        {
+            return GetTagString(tagName, value);
+        }
+        return null;
+    }
+    public static string GetTagString(string tagName, List<string> attributes)
+    {
+        return $"{tagName}: ({string.Join(", ", attributes)})";
     }
 }

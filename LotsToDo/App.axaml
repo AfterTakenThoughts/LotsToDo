@@ -17,25 +17,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <MergeResourceInclude Source="/ThemeAssets/Colors.axaml" />
+                <MergeResourceInclude Source="/ThemeAssets/Textbox.axaml" />
+                <MergeResourceInclude Source="/ThemeAssets/BaseButton.axaml" />
+                <MergeResourceInclude Source="/ThemeAssets/DeleteButton.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
-        <ControlTheme x:Key="BaseButton" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource BaseColor}"/>
-            <Setter Property="Padding" Value="7"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            
-            <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="{DynamicResource PointerOverColor}"/>
-            </Style>
-
-            <Style Selector="^:focus">
-                <Setter Property="Background" Value="{DynamicResource FocusColor}"/>
-            </Style>
-        </ControlTheme>
-
-        <ControlTheme x:Key="BaseTextBox" TargetType="TextBox">
-            <!-- TODO: get a style to work here. -->
-        </ControlTheme>
     </Application.Resources>
 </Application>
