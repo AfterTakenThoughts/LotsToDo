@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace LotsToDo.Views.InitialScreen.TaskListing;
 
-public partial class TaskListing : UserControl
+public partial class TagListing : UserControl
 {
-    public TaskListing()
+    public TagListing()
     {
         InitializeComponent();
     }
