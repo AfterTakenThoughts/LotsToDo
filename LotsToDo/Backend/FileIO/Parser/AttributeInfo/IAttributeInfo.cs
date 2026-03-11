@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using LotsToDo.Backend.FileIO.Parser;
 
+namespace LotsToDo.Backend.FileIO.Parser.AttributeInfo;
 public interface IAttributeInfo
 {
     /// <summary>

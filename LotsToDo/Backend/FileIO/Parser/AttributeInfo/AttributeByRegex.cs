@@ -5,8 +5,6 @@ using LotsToDo.Backend.FileIO.Parser.ExtractionMethods;
 using LotsToDo.Backend.StringHandlingExtensions;
 
 namespace LotsToDo.Backend.FileIO.Parser.AttributeInfo;
-
-//TODO: add string comparison options.
 public readonly struct AttributeByRegex : IAttributeInfo
 {
     public MatchInfo TagIdentifierMatch { get; }

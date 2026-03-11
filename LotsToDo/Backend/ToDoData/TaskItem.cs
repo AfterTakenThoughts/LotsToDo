@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LotsToDo.Backend;
+namespace LotsToDo.Backend.ToDoData;
 
 public class TaskItem
 {
@@ -90,6 +90,6 @@ public class TaskItem
     }
     public static string GetTagString(string tagName, List<string> attributes)
     {
-        return $"{tagName}: ({String.Join(", ", attributes)})";
+        return $"{tagName}: ({string.Join(", ", attributes)})";
     }
 }

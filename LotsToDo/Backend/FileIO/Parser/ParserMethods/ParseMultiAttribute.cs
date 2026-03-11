@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LotsToDo.Backend.FileIO.Parser.AttributeInfo;
 
 namespace LotsToDo.Backend.FileIO.Parser.ParserMethods;
 public class ParseMultiAttribute(string tagName, List<IAttributeInfo> keyWordList) : ITagParser

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Avalonia;
 
 namespace LotsToDo.Backend.StringHandlingExtensions;
 public static class TrimString

@@ -11,7 +11,9 @@ using LotsToDo.Backend.ToDoData;
 
 namespace LotsToDo.ViewModels;
 
-///<summary>content with some stuff</summary>
+/// <summary>
+/// View model for listing the to do list.
+/// </summary>
 public partial class ToDoListViewModel : ViewModelBase
 {
     public ObservableCollection<TaskItemViewModel> ToDoItemList { get; set; }

@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using CommunityToolkit.Mvvm.ComponentModel;
-using LotsToDo.Backend;
 using LotsToDo.Backend.FileIO.Parser;
 using LotsToDo.Backend.FileIO.Parser.AttributeInfo;
 using LotsToDo.Backend.FileIO.Parser.ParserMethods;
-using LotsToDo.ViewModels;
+using LotsToDo.Backend.ToDoData;
 
 namespace LotsToDo.ViewModels;
 /// <summary>
